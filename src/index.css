@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
+  
+  --color-gold-light: #FAF6E8;
+  --color-gold-default: #D4AF37;
+  --color-gold-dark: #AA871A;
+  --color-sage-light: #F4F6F0;
+  --color-sage-default: #8A9A5B;
+  --color-sage-dark: #6B7B43;
+  --color-pink-light: #FAF0F0;
+  --color-pink-default: #E8D3D3;
+  --color-pink-dark: #B88B8B;
+  --color-offwhite: #FDFCF9;
+  --color-charcoal: #4A4A4A;
+}
+
+/* Custom styles for premium typography and transitions */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-offwhite);
+  color: var(--color-charcoal);
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+h1, h2, h3, h4, h5, h6, .font-serif-title {
+  font-family: var(--font-serif);
+}
+
+/* Pinterest-style Masonry Grid fallback */
+.masonry-grid {
+  display: flex;
+  margin-left: -16px;
+  width: auto;
+}
+.masonry-grid-column {
+  padding-left: 16px;
+  background-clip: padding-box;
+}
+
+/* Custom scrollbar to match the romantic vibe */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-offwhite);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-pink-default);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-sage-default);
+}
+
