@@ -148,7 +148,7 @@ export default function FavorsCalculator() {
 
             <div className="pt-8">
               <a
-                href="https://wa.me/5511999999999"
+                href="https://wa.me/5514988156357"
                 target="_blank"
                 rel="noreferrer"
                 className="w-full bg-charcoal text-white hover:bg-gold-dark py-3.5 rounded-2xl text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer"

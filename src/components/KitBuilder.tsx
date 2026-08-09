@@ -2,10 +2,10 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Sparkles, HelpCircle, Inbox, GlassWater, Wine, FileText, Check, ArrowRight, ShoppingBag } from "lucide-react";
 import { KIT_BUILDER_ITEMS } from "../data";
-import { Product } from "../types";
+import { Product, Customizations } from "../types";
 
 interface KitBuilderProps {
-  onAddCustomKitToCart: (kitName: string, totalPrice: number, itemsSelected: string[], customizations: any) => void;
+  onAddCustomKitToCart: (kitName: string, totalPrice: number, itemsSelected: string[], customizations: Customizations) => void;
   setView: (view: string) => void;
 }
 
@@ -216,7 +216,7 @@ export default function KitBuilder({ onAddCustomKitToCart, setView }: KitBuilder
                   <span>Adicionar Sacola</span>
                 </button>
                 <a
-                  href={`https://wa.me/5511999999999?text=Ol%C3%A1!%20Acabei%20de%20montar%20um%20kit%20de%20padrinho%20no%20site%20Oficina%20do%20Sim.%20Pre%C3%A7o%3A%20R%24%20${totalPrice.toFixed(2)}.%20Gostaria%20de%20fazer%20o%20or%C3%A7amento%20para%20meu%20casamento.`}
+                  href={`https://wa.me/5514988156357?text=Ol%C3%A1!%20Acabei%20de%20montar%20um%20kit%20de%20padrinho%20no%20site%20Oficina%20do%20Sim.%20Pre%C3%A7o%3A%20R%24%20${totalPrice.toFixed(2)}.%20Gostaria%20de%20fazer%20o%20or%C3%A7amento%20para%20meu%20casamento.`}
                   target="_blank"
                   rel="noreferrer"
                   className="w-full bg-charcoal text-white hover:bg-gold-dark py-3.5 rounded-2xl text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all cursor-pointer text-center"

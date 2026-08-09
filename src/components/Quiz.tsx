@@ -214,7 +214,7 @@ export default function Quiz({ onStyleCalculated, openAI, onAddToCart }: QuizPro
                 <div className="space-y-2">
                   <h3 className="font-serif text-xl text-charcoal font-semibold">Tecendo seu Estilo...</h3>
                   <p className="text-xs text-charcoal/50 italic max-w-sm mx-auto leading-relaxed">
-                    &ldquo;Victória e Dani estão escolhendo a dedo as fragrâncias, papéis e texturas ideais para seu casamento.&rdquo;
+                    &ldquo;Victória e Daniele estão escolhendo a dedo as fragrâncias, papéis e texturas ideais para seu casamento.&rdquo;
                   </p>
                 </div>
               </div>

@@ -5,17 +5,19 @@
   --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
   
-  --color-gold-light: #FAF6E8;
-  --color-gold-default: #D4AF37;
-  --color-gold-dark: #AA871A;
-  --color-sage-light: #F4F6F0;
-  --color-sage-default: #8A9A5B;
-  --color-sage-dark: #6B7B43;
-  --color-pink-light: #FAF0F0;
-  --color-pink-default: #E8D3D3;
-  --color-pink-dark: #B88B8B;
-  --color-offwhite: #FDFCF9;
-  --color-charcoal: #4A4A4A;
+  --color-gold-light: #F4E2D6;
+  --color-gold-default: #C9974D;
+  --color-gold-dark: #A07530;
+  --color-rose-default: #D49A7A;
+  --color-blush-default: #E9B8A7;
+  --color-sage-light: #8FA08B;
+  --color-sage-default: #6D816F;
+  --color-sage-dark: #49604B;
+  --color-pink-light: #FAF6F2;
+  --color-pink-default: #E9B8A7;
+  --color-pink-dark: #D49A7A;
+  --color-offwhite: #FAF6F2;
+  --color-charcoal: #3A3A3A;
 }
 
 /* Custom styles for premium typography and transitions */

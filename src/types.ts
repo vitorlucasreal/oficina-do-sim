@@ -50,17 +50,19 @@ export interface KitItem {
   category: string;
 }
 
+export interface Customizations {
+  name?: string;
+  date?: string;
+  message?: string;
+  color?: string;
+  observations?: string;
+}
+
 export interface CartItem {
   id: string; // Unique timestamp or ID for cart item
   product: Product;
   quantity: number;
-  customizations?: {
-    name?: string;
-    date?: string;
-    message?: string;
-    color?: string;
-    observations?: string;
-  };
+  customizations?: Customizations;
 }
 
 export interface QuizAnswers {

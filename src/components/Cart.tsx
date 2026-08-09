@@ -40,7 +40,7 @@ export default function Cart({
 
   // Build the WhatsApp direct ordering text string
   const handleCheckout = () => {
-    let orderText = `Olá Victória e Dani! Gostaria de formalizar um orçamento para o meu casamento a partir das escolhas feitas no site Oficina do Sim:\n\n`;
+    let orderText = `Olá Victória e Daniele! Gostaria de formalizar um orçamento para o meu casamento a partir das escolhas feitas no site Oficina do Sim:\n\n`;
     
     cart.forEach((item, idx) => {
       const price = item.product.isPromo ? (item.product.promoPrice ?? item.product.price) : item.product.price;
@@ -59,7 +59,7 @@ export default function Cart({
     orderText += `Fico no aguardo do contato para definirmos a papelaria digital e acertarmos os detalhes!`;
 
     const encodedText = encodeURIComponent(orderText);
-    window.open(`https://wa.me/5511999999999?text=${encodedText}`, "_blank");
+    window.open(`https://wa.me/5514988156357?text=${encodedText}`, "_blank");
   };
 
   return (

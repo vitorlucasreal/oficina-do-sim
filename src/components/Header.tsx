@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, Heart, ShoppingBag, Sparkles, Menu, X, HelpCircle } from "lucide-react";
+import { Search, Heart, ShoppingBag, Sparkles, Menu, X } from "lucide-react";
 
 interface HeaderProps {
   currentView: string;
@@ -32,7 +32,7 @@ export default function Header({
     { label: "Loja", view: "shop" },
     { label: "Monte seu Kit", view: "kit-builder" },
     { label: "Estilo Quiz", view: "quiz" },
-    { label: "Calculadora", view: "calculator" },
+    { label: "Quem Somos", view: "quem-somos" },
   ];
 
   const handleNavClick = (view: string) => {
@@ -43,10 +43,10 @@ export default function Header({
 
   return (
     <>
-      {/* Benefit Announcement Bar */}
-      <div id="announcement-bar" className="bg-sage-default text-white py-2 px-4 text-xs tracking-wider text-center font-medium flex items-center justify-center gap-2">
-        <Sparkles size={13} className="animate-pulse" />
-        <span>Frete Grátis para todo o Brasil em compras acima de R$ 350 | Parcelamento em até 6x sem juros</span>
+      {/* Announcement Bar */}
+      <div id="announcement-bar" className="bg-sage-dark text-white py-2 px-4 text-xs tracking-wider text-center font-medium flex items-center justify-center gap-2">
+        <Sparkles size={13} className="animate-pulse text-gold-light" />
+        <span>Atendimento Personalizado e Produção Artesanal Exclusiva</span>
       </div>
 
       {/* Sticky Main Header */}
@@ -57,31 +57,18 @@ export default function Header({
           <button
             id="brand-logo-btn"
             onClick={() => handleNavClick("home")}
-            className="flex items-center gap-3 text-left focus:outline-none group"
+            className="flex items-center gap-3 text-left focus:outline-none group py-1"
           >
-            {/* Elegant Floral Wreath Logo */}
-            <div className="w-11 h-11 rounded-full border border-gold-default/40 flex items-center justify-center bg-pink-light group-hover:border-gold-default transition-all">
-              <svg
-                className="w-8 h-8 text-gold-default"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              >
-                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z" strokeDasharray="3 3" />
-                <path d="M8 11.5c.5-.8 1.5-1.3 2.5-1s1.3 1.5 1 2.5l-.5 1.5" />
-                <path d="M16 11.5c-.5-.8-1.5-1.3-2.5-1s-1.3 1.5-1 2.5l.5 1.5" />
-                <path d="M9.5 16.5c1.2.8 2.8.8 4 0" />
-                <circle cx="6" cy="9" r="1.5" fill="currentColor" opacity="0.3" />
-                <circle cx="18" cy="9" r="1.5" fill="currentColor" opacity="0.3" />
-                <circle cx="12" cy="5" r="1" fill="currentColor" />
-              </svg>
-            </div>
-            <div>
-              <span className="block font-serif text-xl tracking-widest text-charcoal font-semibold uppercase leading-none">
+            <img
+              src="/images/logo_oficina_sim_1786290754245.jpeg"
+              alt="Oficina do Sim Logo"
+              className="h-16 w-auto object-contain rounded-lg shadow-xs group-hover:scale-105 transition-transform"
+            />
+            <div className="hidden sm:block">
+              <span className="block font-serif text-lg tracking-widest text-charcoal font-bold uppercase leading-none">
                 Oficina do Sim
               </span>
-              <span className="block text-[9px] uppercase tracking-widest text-gold-dark font-semibold mt-0.5">
+              <span className="block text-[9px] uppercase tracking-widest text-gold-dark font-semibold mt-1">
                 Lembranças & Personalizados
               </span>
             </div>
@@ -152,7 +139,7 @@ export default function Header({
             <button
               onClick={openAI}
               className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gold-default/30 bg-gold-light/40 text-gold-dark hover:bg-gold-light transition-colors text-xs font-semibold tracking-wider"
-              title="Pergunte à Victória & Dani"
+              title="Pergunte à Victória & Daniele"
             >
               <Sparkles size={14} className="animate-pulse" />
               <span>Consultora IA</span>
@@ -189,6 +176,7 @@ export default function Header({
             {/* Mobile Navigation Toggle */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Menu principal"
               className="lg:hidden p-2 text-charcoal/70 hover:bg-pink-light/40 rounded-full focus:outline-none"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}

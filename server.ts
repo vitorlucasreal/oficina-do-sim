@@ -33,6 +33,11 @@ function getGeminiClient() {
   return ai;
 }
 
+interface ChatMessage {
+  role: "user" | "model";
+  content: string;
+}
+
 // 1. API: Health Check
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok" });
@@ -52,7 +57,7 @@ app.post("/api/chat", async (req, res) => {
 
   try {
     const systemInstruction = `
-      Você é a Victória e a Dani, as fundadoras e mentes criativas por trás da "Oficina do Sim", um ateliê de produtos personalizados para casamentos sofisticados, minimalistas e acolhedores.
+      Você é a Victória e a Daniele, as fundadoras e mentes criativas por trás da "Oficina do Sim", uma marca de produtos personalizados para casamentos sofisticados, minimalistas e acolhedores.
       Seu tom é extremamente carinhoso, empático, refinado, inspirador e profissional. Você compreende os anseios das noivas e noivos e deseja transformar o dia deles em algo eterno.
       Use português do Brasil elegante e acolhedor. Nunca pareça excessivamente formal ou fria, mas mantenha uma postura premium (como Zara Home, Etsy, Westwing).
       Você conhece o catálogo da Oficina do Sim, que inclui:
@@ -67,7 +72,7 @@ app.post("/api/chat", async (req, res) => {
     `;
 
     // Map client messages to Gemini content format
-    const formattedContents = messages.map((m: any) => ({
+    const formattedContents = messages.map((m: ChatMessage) => ({
       role: m.role === "user" ? "user" : "model",
       parts: [{ text: m.content }],
     }));
@@ -82,9 +87,10 @@ app.post("/api/chat", async (req, res) => {
     });
 
     res.json({ text: response.text });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Gemini API error:", error);
-    res.status(500).json({ error: "Erro ao processar sua solicitação com a inteligência artificial da Oficina do Sim.", details: error.message });
+    const errorMessage = error instanceof Error ? error.message : "Erro desconhecido";
+    res.status(500).json({ error: "Erro ao processar sua solicitação com a inteligência artificial da Oficina do Sim.", details: errorMessage });
   }
 });
 
@@ -141,7 +147,7 @@ app.post("/api/quiz-recommendation", async (req, res) => {
     const resultText = response.text || "{}";
     const data = JSON.parse(resultText.trim());
     res.json(data);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Quiz recommendation API error:", error);
     res.status(500).json({ error: "Erro ao calcular recomendações." });
   }

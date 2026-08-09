@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Heart, Star, Sparkles, Check, ShoppingBag, MessageCircle, HelpCircle } from "lucide-react";
-import { Product } from "../types";
+import { Product, Customizations } from "../types";
 
 interface ProductModalProps {
   product: Product | null;
   onClose: () => void;
-  onAddToCart: (product: Product, quantity: number, customizations?: any) => void;
+  onAddToCart: (product: Product, quantity: number, customizations?: Customizations) => void;
   isWishlisted: boolean;
   toggleWishlist: (product: Product) => void;
 }
@@ -14,11 +14,10 @@ interface ProductModalProps {
 export default function ProductModal({
   product,
   onClose,
-  onAddWithQuantity,
   onAddToCart,
   isWishlisted,
   toggleWishlist
-}: any) {
+}: ProductModalProps) {
   if (!product) return null;
 
   const [quantity, setQuantity] = useState(1);
@@ -177,20 +176,9 @@ export default function ProductModal({
 
               {/* Pricing section */}
               <div className="flex items-baseline gap-2 pb-3 border-b border-pink-default/15">
-                {product.isPromo ? (
-                  <>
-                    <span className="font-serif text-2xl font-bold text-gold-dark">
-                      R$ {product.promoPrice?.toFixed(2)}
-                    </span>
-                    <span className="text-sm text-charcoal/40 line-through">
-                      R$ {product.price.toFixed(2)}
-                    </span>
-                  </>
-                ) : (
-                  <span className="font-serif text-2xl font-bold text-gold-dark">
-                    R$ {product.price.toFixed(2)}
-                  </span>
-                )}
+                <span className="font-serif text-2xl font-bold text-gold-dark">
+                  R$ {product.price.toFixed(2)}
+                </span>
               </div>
 
               <p className="text-charcoal/70 text-xs sm:text-sm leading-relaxed font-light">
@@ -210,7 +198,7 @@ export default function ProductModal({
                       <label className="text-[10px] uppercase tracking-wider text-charcoal/50 font-bold block">Iniciais ou Nome do Casal</label>
                       <input
                         type="text"
-                        placeholder="Victória & Dani"
+                        placeholder="Victória & Daniele"
                         value={custName}
                         onChange={(e) => setCustName(e.target.value)}
                         maxLength={24}
@@ -265,7 +253,7 @@ export default function ProductModal({
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-wider text-charcoal/50 font-bold block">Observações Extras para Dani & Victória</label>
+                    <label className="text-[10px] uppercase tracking-wider text-charcoal/50 font-bold block">Observações Extras para Daniele & Victória</label>
                     <textarea
                       placeholder="Gostaria da fita em linho marsala ao invés de verde sálvia..."
                       value={custObs}
@@ -309,7 +297,7 @@ export default function ProductModal({
                 </button>
                 
                 <a
-                  href={`https://wa.me/5511999999999?text=Olá%20Victória%20e%20Dani!%20Gostaria%20de%20saber%20mais%20sobre%20o%20produto%20${product.name}%20(Quantidade%3A%20${quantity}).`}
+                  href={`https://wa.me/5514988156357?text=Olá%20Victória%20e%20Daniele!%20Gostaria%20de%20saber%20mais%20sobre%20o%20produto%20${product.name}%20(Quantidade%3A%20${quantity}).`}
                   target="_blank"
                   rel="noreferrer"
                   className="w-full bg-charcoal text-white hover:bg-gold-dark py-4 rounded-2xl text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all cursor-pointer text-center"

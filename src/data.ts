@@ -193,7 +193,7 @@ export const PRODUCTS: Product[] = [
     category: "topos-bolo",
     customizable: true,
     isBestSeller: false,
-    features: ["Disponível em acrílico dourado espelhado, preto brilhante ou MDF amadeirado", "Haste de fixação transparente de 8cm", "Design exclusivo desenhado por Victória e Dani", "Fácil higienização"],
+    features: ["Disponível em acrílico dourado espelhado, preto brilhante ou MDF amadeirado", "Haste de fixação transparente de 8cm", "Design exclusivo desenhado por Victória e Daniele", "Fácil higienização"],
     galleryImages: [
       "https://images.unsplash.com/photo-1535141192574-5d4897c13636?auto=format&fit=crop&q=80&w=600"
     ]
@@ -214,17 +214,17 @@ export const KIT_BUILDER_ITEMS: KitItem[] = [
 export const TESTIMONIALS: Testimonial[] = [
   {
     id: "1",
-    name: "Mariana Silva",
-    role: "Noiva de Outubro",
+    name: "Noiva Oficina do Sim",
+    role: "Casamento em Outubro",
     city: "São Paulo - SP",
     rating: 5,
-    comment: "A Victória e a Dani foram anjos na organização! As caixas de padrinhos ficaram perfeitas, o cheirinho das velas é divino e todos os convidados comentaram sobre o capricho. Recomendo de olhos fechados!",
+    comment: "A Victória e a Daniele foram anjos na organização! As caixas de padrinhos ficaram perfeitas, o cheirinho das velas é divino e todos os convidados comentaram sobre o capricho. Recomendo de olhos fechados!",
     avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150"
   },
   {
     id: "2",
-    name: "Beatriz Mello",
-    role: "Noiva de Janeiro",
+    name: "Noiva Oficina do Sim",
+    role: "Casamento em Janeiro",
     city: "Belo Horizonte - MG",
     rating: 5,
     comment: "Simplesmente apaixonada pela papelaria e pelos convites com lacre de cera! Um capricho impecável, embalagem cheirosa e entrega no prazo. Fez toda a diferença no meu casamento boho.",
@@ -232,8 +232,8 @@ export const TESTIMONIALS: Testimonial[] = [
   },
   {
     id: "3",
-    name: "Carolina Vasconcellos",
-    role: "Noiva de Maio",
+    name: "Noiva Oficina do Sim",
+    role: "Casamento em Maio",
     city: "Rio de Janeiro - RJ",
     rating: 5,
     comment: "A Oficina do Sim superou todas as expectativas. O 'Monte seu Kit' facilitou muito a escolha e o brinde das taças com nossos padrinhos foi o ponto alto! Atendimento humanizado incrível.",
@@ -249,7 +249,7 @@ export const BLOG_POSTS: BlogPost[] = [
     content: "Planejar um casamento é recheado de pequenos detalhes apaixonantes. Dentre eles, as lembrancinhas representam o agradecimento físico pela presença de quem amamos. Para calcular a quantidade ideal, uma regra de ouro é somar 10% de margem de segurança ao número de famílias ou casais convidados. Velas aromáticas e aromatizadores artesanais são opções atemporais que tocam a memória olfativa e prolongam a magia do seu dia de noiva.",
     image: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&q=80&w=600",
     date: "12 de Julho, 2026",
-    author: "Dani & Victória"
+    author: "Daniele & Victória"
   },
   {
     id: "b2",
@@ -265,7 +265,7 @@ export const BLOG_POSTS: BlogPost[] = [
 export const FAQS = [
   {
     question: "Vocês fazem personalização completa?",
-    answer: "Sim! Todos os nossos produtos podem ser personalizados com nomes, brasão do casal, monogramas, datas e paletas de cores específicas. Após a confirmação do pedido, nossa equipe (Victória ou Dani) entrará em contato para definir todos os layouts digitais de aprovação."
+    answer: "Sim! Todos os nossos produtos podem ser personalizados com nomes, brasão do casal, monogramas, datas e paletas de cores específicas. Após a confirmação do pedido, nossa equipe (Victória ou Daniele) entrará em contato para definir todos os layouts digitais de aprovação."
   },
   {
     question: "Qual é o prazo de produção?",

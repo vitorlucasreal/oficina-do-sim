@@ -30,6 +30,7 @@ import ProductsSection from "./components/ProductsSection";
 import {
   HowItWorks,
   WhyUs,
+  FoundersSection,
   PinterestGallery,
   Testimonials,
   InstagramFeed,
@@ -39,12 +40,43 @@ import {
 
 // Data
 import { PRODUCTS, CATEGORIES, BLOG_POSTS } from "./data";
-import { Product, CartItem, QuizResult } from "./types";
+import { Product, CartItem, QuizResult, Customizations } from "./types";
 
 export default function App() {
   const [currentView, setView] = useState<string>("home");
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [wishlist, setWishlist] = useState<Product[]>([]);
+  const [cart, setCart] = useState<CartItem[]>(() => {
+    try {
+      const saved = localStorage.getItem("oficina_sim_cart");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [wishlist, setWishlist] = useState<Product[]>(() => {
+    try {
+      const saved = localStorage.getItem("oficina_sim_wishlist");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("oficina_sim_cart", JSON.stringify(cart));
+    } catch (e) {
+      console.warn("Erro ao salvar carrinho no localStorage", e);
+    }
+  }, [cart]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("oficina_sim_wishlist", JSON.stringify(wishlist));
+    } catch (e) {
+      console.warn("Erro ao salvar favoritos no localStorage", e);
+    }
+  }, [wishlist]);
+
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartActiveTab, setCartActiveTab] = useState<"cart" | "wishlist">("cart");
   const [isAIOpen, setIsAIOpen] = useState(false);
@@ -74,7 +106,7 @@ export default function App() {
   }, []);
 
   // Cart operations
-  const handleAddToCart = (product: Product, quantity: number = 1, customizations?: any) => {
+  const handleAddToCart = (product: Product, quantity: number = 1, customizations?: Customizations) => {
     const isPromo = product.isPromo;
     const finalPrice = isPromo ? (product.promoPrice ?? product.price) : product.price;
 
@@ -97,7 +129,7 @@ export default function App() {
     triggerToast(`✓ ${product.name} adicionado à sacola!`);
   };
 
-  const handleAddCustomKitToCart = (kitName: string, totalPrice: number, itemsSelected: string[], customizations: any) => {
+  const handleAddCustomKitToCart = (kitName: string, totalPrice: number, itemsSelected: string[], customizations: Customizations) => {
     // Generate a mock product representant for custom kit
     const mockKitProduct: Product = {
       id: `custom-kit-${Date.now()}`,
@@ -203,7 +235,7 @@ export default function App() {
                 {/* Background Image with elegant overlay */}
                 <div className="absolute inset-0">
                   <img
-                    src="https://images.unsplash.com/photo-1519225495810-7512c696505a?auto=format&fit=crop&q=80&w=1920"
+                    src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1920"
                     alt="Casamento Elegante Oficina do Sim"
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover opacity-80"
@@ -222,9 +254,6 @@ export default function App() {
                           <Star key={i} size={14} className="fill-current" />
                         ))}
                       </div>
-                      <span className="text-[10.5px] uppercase tracking-widest text-charcoal font-bold bg-white/80 px-3 py-1 rounded-full border border-gold-default/15 shadow-2xs">
-                        ★★★★★ Mais de 500 casamentos realizados em todo o Brasil
-                      </span>
                     </div>
 
                     <div className="space-y-4">
@@ -232,7 +261,7 @@ export default function App() {
                         Transformando momentos especiais em <span className="text-gold-dark italic font-serif">lembranças eternas.</span>
                       </h1>
                       <p className="text-charcoal/80 text-sm sm:text-md leading-relaxed font-light">
-                        No Ateliê Oficina do Sim, Victória e Dani produzem mimos de luxo, caixas de padrinhos, velas aromáticas artesanais e convites finos pensados exclusivamente para o dia do seu sim.
+                        Na Oficina do Sim, Victória e Daniele produzem mimos de luxo, caixas de padrinhos, velas aromáticas artesanais e convites finos pensados exclusivamente para o dia do seu sim.
                       </p>
                     </div>
 
@@ -260,41 +289,7 @@ export default function App() {
                 </div>
               </section>
 
-              {/* Conversion Benefits Bar */}
-              <section id="benefits-bar" className="bg-white border-y border-pink-default/15 py-6">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-xs">
-                    <div className="flex items-center justify-center gap-3">
-                      <Sparkles size={18} className="text-gold-default shrink-0" />
-                      <div className="text-left">
-                        <p className="font-bold text-charcoal">Personalização Total</p>
-                        <p className="text-[10px] text-charcoal/50">Sua arte, iniciais e cores</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-center gap-3">
-                      <Award size={18} className="text-gold-default shrink-0" />
-                      <div className="text-left">
-                        <p className="font-bold text-charcoal">Manufatura Premium</p>
-                        <p className="text-[10px] text-charcoal/50">Rigores de alta qualidade</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-center gap-3">
-                      <Truck size={18} className="text-gold-default shrink-0" />
-                      <div className="text-left">
-                        <p className="font-bold text-charcoal">Envio Seguro</p>
-                        <p className="text-[10px] text-charcoal/50">Embalagens protegidas</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-center gap-3">
-                      <ShieldCheck size={18} className="text-gold-default shrink-0" />
-                      <div className="text-left">
-                        <p className="font-bold text-charcoal">Compra Protegida</p>
-                        <p className="text-[10px] text-charcoal/50">Criptografia de ponta a ponta</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
+
 
               {/* Large Categories cards grid */}
               <section id="categories-grid" className="py-24 bg-offwhite">
@@ -491,7 +486,7 @@ export default function App() {
                       <span className="text-[9px] uppercase tracking-widest font-bold text-gold-dark bg-gold-light/40 px-2 py-0.5 rounded">Recomendado</span>
                       <h4 className="font-serif text-sm sm:text-md font-bold text-charcoal">Kit Clássico Minimalista</h4>
                       <p className="text-[11px] sm:text-xs text-charcoal/60 leading-relaxed font-light">
-                        A escolha de 85% dos casais do nosso ateliê, unindo a doçura dos aromatizadores e a nobreza das taças gravadas.
+                        A escolha de 85% dos casais da Oficina do Sim, unindo a doçura dos aromatizadores e a nobreza das taças gravadas.
                       </p>
                       <span className="block text-xs font-bold text-gold-dark">A partir de R$ 98,00</span>
                     </div>
@@ -501,73 +496,58 @@ export default function App() {
 
               {/* Subcomponents Sections */}
               <HowItWorks />
-              <WhyUs />
-              <PinterestGallery />
-              <Testimonials />
-
-              {/* Blog posts tips section */}
-              <section id="blog-tips" className="py-24 bg-white relative">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                  
-                  <div className="text-center max-w-2xl mx-auto mb-16">
-                    <span className="text-[10px] uppercase tracking-widest text-gold-dark font-bold bg-gold-light/60 px-3.5 py-1 rounded-full">
-                      Dicas de Casamento
-                    </span>
-                    <h2 className="font-serif text-3xl sm:text-4xl text-charcoal font-semibold mt-3 tracking-wide">
-                      Diário da Noiva
-                    </h2>
-                    <p className="text-charcoal/60 text-xs sm:text-sm mt-3">
-                      Sugestões e inspirações escritas por Victória e Dani para te auxiliar nos preparativos do seu sim.
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {BLOG_POSTS.map((post) => (
-                      <div
-                        key={post.id}
-                        className="bg-offwhite rounded-3xl overflow-hidden border border-pink-default/20 text-left flex flex-col justify-between"
-                      >
-                        <div className="aspect-video overflow-hidden">
-                          <img
-                            src={post.image}
-                            alt={post.title}
-                            referrerPolicy="no-referrer"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="p-6 space-y-4">
-                          <div className="flex justify-between items-center text-[10px] text-charcoal/40 font-bold uppercase tracking-widest">
-                            <span className="flex items-center gap-1">
-                              <BookOpen size={11} /> {post.author}
-                            </span>
-                            <span>{post.date}</span>
-                          </div>
-                          <h4 className="font-serif text-lg font-bold text-charcoal leading-snug">
-                            {post.title}
-                          </h4>
-                          <p className="text-xs sm:text-sm text-charcoal/70 leading-relaxed font-light">
-                            {post.excerpt}
-                          </p>
-                          <button
-                            onClick={() => {
-                              triggerToast(`Dica: ${post.title} - Para ler o post completo, assine nossa newsletter grátis no rodapé!`);
-                            }}
-                            className="text-xs font-bold text-gold-dark hover:text-gold-default flex items-center gap-1.5 focus:outline-none"
-                          >
-                            <span>Ler Artigo</span>
-                            <ArrowRight size={12} />
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                </div>
-              </section>
 
               <InstagramFeed />
               <FAQ />
-              <FinalCTA openAI={() => setIsAIOpen(true)} setView={setView} />
+
+              {/* Conversion Benefits Bar */}
+              <section id="benefits-bar" className="bg-white border-t border-pink-default/15 py-6">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-xs">
+                    <div className="flex items-center justify-center gap-3">
+                      <Sparkles size={18} className="text-gold-default shrink-0" />
+                      <div className="text-left">
+                        <p className="font-bold text-charcoal">Personalização Total</p>
+                        <p className="text-[10px] text-charcoal/50">Sua arte, iniciais e cores</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-center gap-3">
+                      <Award size={18} className="text-gold-default shrink-0" />
+                      <div className="text-left">
+                        <p className="font-bold text-charcoal">Manufatura Premium</p>
+                        <p className="text-[10px] text-charcoal/50">Rigores de alta qualidade</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-center gap-3">
+                      <Truck size={18} className="text-gold-default shrink-0" />
+                      <div className="text-left">
+                        <p className="font-bold text-charcoal">Envio Seguro</p>
+                        <p className="text-[10px] text-charcoal/50">Embalagens protegidas</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-center gap-3">
+                      <ShieldCheck size={18} className="text-gold-default shrink-0" />
+                      <div className="text-left">
+                        <p className="font-bold text-charcoal">Compra Protegida</p>
+                        <p className="text-[10px] text-charcoal/50">Criptografia de ponta a ponta</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </motion.div>
+          )}
+
+          {currentView === "quem-somos" && (
+            <motion.div
+              key="quem-somos"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <FoundersSection />
+              <WhyUs />
             </motion.div>
           )}
 
@@ -645,16 +625,25 @@ export default function App() {
           </button>
         )}
 
-        {/* WhatsApp direct chat bubble */}
-        <a
-          href="https://wa.me/5511999999999"
-          target="_blank"
-          rel="noreferrer"
-          className="p-4 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-2xl transition-all cursor-pointer flex items-center justify-center border-4 border-white"
-          title="Fale com Victoria e Dani"
-        >
-          <MessageCircle size={22} className="fill-current" />
-        </a>
+          {/* WhatsApp direct chat bubble */}
+          <a
+            href="https://wa.me/5514988156357"
+            target="_blank"
+            rel="noreferrer"
+            className="p-4 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-full shadow-2xl transition-all cursor-pointer flex items-center justify-center border-4 border-white"
+            title="Fale com Victória e Daniele"
+            aria-label="Fale conosco pelo WhatsApp"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982 1-3.648-.235-.374a9.86 9.86 0 011.51-12.382 9.86 9.86 0 017.02-2.91c2.645 0 5.132 1.03 7.001 2.9a9.87 9.87 0 012.904 7.017 9.88 9.88 0 01-9.863 10.007m8.413-18.395A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.89c0 2.096.547 4.142 1.588 5.945L.057 24l6.304-1.654a11.882 11.882 0 005.684 1.447h.005c6.555 0 11.89-5.335 11.893-11.893a11.8 11.8 0 00-3.479-8.41" />
+            </svg>
+          </a>
       </div>
 
       {/* Footer element */}

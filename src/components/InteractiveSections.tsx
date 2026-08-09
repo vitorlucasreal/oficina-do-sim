@@ -7,6 +7,7 @@ import {
   Truck,
   CheckCircle,
   Instagram,
+  Facebook,
   Star,
   ChevronDown,
   ChevronUp,
@@ -29,7 +30,7 @@ export function HowItWorks() {
     {
       num: "02",
       title: "Nós Personalizamos",
-      desc: "Victória e Dani desenham seu brasão, monograma ou caligrafia digital até ficar do jeito que você sonhou.",
+      desc: "Victória e Daniele desenham seu brasão, monograma ou caligrafia digital até ficar do jeito que você sonhou.",
       icon: <Heart className="text-pink-dark w-6 h-6" />
     },
     {
@@ -54,7 +55,7 @@ export function HowItWorks() {
             Processo de Afeto
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl text-charcoal font-semibold mt-3 tracking-wide">
-            Como Funciona Nosso Ateliê
+            Como Funciona Nossa Produção
           </h2>
           <p className="text-charcoal/60 text-xs sm:text-sm mt-3">
             Criamos uma jornada leve, segura e apaixonante do clique inicial até o unboxing perfumado.
@@ -95,7 +96,7 @@ export function HowItWorks() {
 export function WhyUs() {
   const advantages = [
     { title: "Personalização Completa", desc: "Adaptamos cores, iniciais, fontes e fitas de acordo com a identidade visual do seu casamento.", icon: <Sparkles size={20} /> },
-    { title: "Atendimento Humanizado", desc: "Você fala diretamente com as donas (Victória ou Dani). Sem robôs frios.", icon: <Heart size={20} /> },
+    { title: "Atendimento Humanizado", desc: "Você fala diretamente com as donas (Victória ou Daniele). Sem robôs frios.", icon: <Heart size={20} /> },
     { title: "Produção Artesanal", desc: "Velas vertidas à mão, laços de linho costurados à mão e gravação a laser precisa.", icon: <Hammer size={20} /> },
     { title: "Materiais de Qualidade", desc: "Cristais finos, papéis texturizados de linho e essências importadas hipoalergênicas.", icon: <CheckCircle size={20} /> },
     { title: "Entrega Segura", desc: "Garantia anti-quebras com embalagens extremamente protegidas para todo o país.", icon: <Truck size={20} /> },
@@ -141,6 +142,171 @@ export function WhyUs() {
             </motion.div>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+// QUEM SOMOS SECTION (FOUNDERS & PURPOSE)
+export function FoundersSection() {
+  const [showLogo, setShowLogo] = useState(false);
+
+  return (
+    <section id="quem-somos" className="py-24 bg-white relative scroll-mt-20">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Header Title */}
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <span className="text-[10px] uppercase tracking-widest text-gold-dark font-bold bg-gold-light/60 px-4 py-1.5 rounded-full border border-gold-default/20">
+            Nossa História & Propósito
+          </span>
+          <h2 className="font-serif text-3xl sm:text-5xl text-charcoal font-bold mt-4 tracking-wide">
+            Quem Somos
+          </h2>
+          <div className="w-16 h-0.5 bg-gold-default/60 mx-auto mt-4 rounded-full" />
+        </div>
+
+        {/* Narrative Text */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="bg-offwhite rounded-3xl p-8 sm:p-12 border border-pink-default/30 shadow-xs space-y-6 text-charcoal/80 text-sm sm:text-base leading-relaxed font-light text-justify sm:text-center"
+        >
+          <p>
+            A Oficina do Sim nasceu da amizade entre duas amigas e de um propósito que acreditamos ter sido colocado por Deus em nossos corações.
+          </p>
+          <p>
+            Sempre fomos apaixonadas pelo universo dos casamentos e por tudo o que ele representa: amor, união, sonhos e novos começos. Com o tempo, percebemos que poderíamos transformar essa paixão em algo maior, criando um espaço onde os noivos encontrassem os detalhes que tornam esse momento ainda mais especial.
+          </p>
+          <p>
+            Foi dessa união de amizade, fé e propósito que surgiu a Oficina do Sim. Nosso desejo é reunir em um só lugar produtos cuidadosamente selecionados para ajudar a compor cada etapa do grande dia, desde os kits para padrinhos até as lembrancinhas e todos os detalhes que fazem a diferença.
+          </p>
+          <p>
+            Mais do que vender produtos, queremos fazer parte de histórias. Acreditamos que cada casamento é único e que os pequenos detalhes carregam grandes significados. Por isso, trabalhamos com carinho, dedicação e amor em tudo o que fazemos.
+          </p>
+          <p>
+            Para nós, a Oficina do Sim não é apenas uma empresa. É a realização de um sonho, uma oportunidade de servir pessoas e um propósito que Deus confiou às nossas vidas.
+          </p>
+          <p className="font-serif font-bold text-gold-dark text-lg sm:text-xl pt-2 text-center italic">
+            &ldquo;Seja bem-vindo à Oficina do Sim. Será uma alegria fazer parte do seu grande dia.&rdquo;
+          </p>
+        </motion.div>
+
+        {/* Images Section Below: Daniele on Left, Logo in Center, Victória on Right */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="mt-16 pt-8 border-t border-pink-default/20"
+        >
+          <div className="text-center mb-8">
+            <span className="text-xs uppercase tracking-widest text-charcoal/60 font-semibold">
+              Victória & Daniele &bull; Oficina do Sim
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center max-w-4xl mx-auto">
+            
+            {/* Daniele (Left) */}
+            <div className="flex flex-col items-center text-center space-y-3 group">
+              <div className="w-48 h-60 sm:w-52 sm:h-64 rounded-3xl overflow-hidden border-2 border-gold-default/30 shadow-md relative bg-pink-light">
+                <img
+                  src="/images/dani_founder_1786290769600.jpeg"
+                  alt="Daniele - Proprietária da Oficina do Sim"
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div>
+                <h3 className="font-serif text-xl font-bold text-charcoal">
+                  Daniele
+                </h3>
+                <p className="text-xs text-sage-dark font-medium">
+                  Proprietária & Atendimento
+                </p>
+              </div>
+            </div>
+
+            {/* Logo (Center) */}
+            <div className="flex flex-col items-center text-center space-y-3 py-4 md:py-0">
+              <button
+                type="button"
+                onClick={() => setShowLogo(true)}
+                aria-label="Ampliar logo da Oficina do Sim"
+                className="w-48 h-48 sm:w-52 sm:h-52 rounded-full border-2 border-gold-default/40 p-3 bg-white shadow-lg flex items-center justify-center hover:border-gold-default transition-all cursor-pointer"
+              >
+                <img
+                  src="/images/logo_oficina_sim_1786290754245.jpeg"
+                  alt="Oficina do Sim Logo"
+                  className="w-full h-full object-contain rounded-full"
+                />
+              </button>
+            </div>
+
+            {/* Victória (Right) */}
+            <div className="flex flex-col items-center text-center space-y-3 group">
+              <div className="w-48 h-60 sm:w-52 sm:h-64 rounded-3xl overflow-hidden border-2 border-gold-default/30 shadow-md relative bg-pink-light">
+                <img
+                  src="/images/victoria_founder_1786290784372.jpeg"
+                  alt="Victória - Proprietária da Oficina do Sim"
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div>
+                <h3 className="font-serif text-xl font-bold text-charcoal">
+                  Victória
+                </h3>
+                <p className="text-xs text-sage-dark font-medium">
+                  Proprietária & Atendimento
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </motion.div>
+
+        {/* Logo modal */}
+        <AnimatePresence>
+          {showLogo && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[9999] bg-black/70 flex items-center justify-center p-6 cursor-pointer"
+              onClick={() => setShowLogo(false)}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Logo ampliado"
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.2 }}
+                className="relative max-w-3xl max-h-[90vh]"
+                onClick={(event) => event.stopPropagation()}
+              >
+                <button
+                  type="button"
+                  onClick={() => setShowLogo(false)}
+                  aria-label="Fechar logo ampliado"
+                  className="absolute -top-4 -right-4 z-10 w-10 h-10 rounded-full bg-white text-charcoal text-2xl leading-none shadow-lg flex items-center justify-center hover:bg-gold-light transition-colors cursor-pointer"
+                >
+                  &times;
+                </button>
+
+                <img
+                  src="/images/logo_oficina_sim_1786290754245.jpeg"
+                  alt="Oficina do Sim Logo ampliado"
+                  className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl bg-white"
+                />
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
       </div>
     </section>
   );
@@ -263,7 +429,7 @@ export function Testimonials() {
   );
 }
 
-// 5. INSTAGRAM INTEGRATION
+// 5. INSTAGRAM & FACEBOOK INTEGRATION
 export function InstagramFeed() {
   const mockPosts = [
     { url: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&q=80&w=400", likes: 231, comments: 42 },
@@ -276,12 +442,15 @@ export function InstagramFeed() {
     <section className="py-24 bg-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <Instagram size={24} className="text-gold-default mx-auto mb-3" />
-          <h2 className="font-serif text-3xl text-charcoal font-semibold tracking-wide">
-            Siga nosso Ateliê no Instagram
+          <div className="flex justify-center items-center gap-3 mb-3 text-gold-default">
+            <Instagram size={22} />
+            <Facebook size={22} />
+          </div>
+          <h2 className="font-serif text-3xl sm:text-4xl text-charcoal font-semibold tracking-wide">
+            Siga nosso perfil no Instagram e nossa página Facebook
           </h2>
-          <p className="text-charcoal/60 text-xs sm:text-sm mt-2">
-            Acompanhe os bastidores da produção com Victoria e Dani e inspire-se diariamente em <strong className="text-gold-dark">@oficinadosim</strong>.
+          <p className="text-charcoal/60 text-xs sm:text-sm mt-3">
+            Acompanhe os bastidores da produção com Victória e Daniele e inspire-se diariamente.
           </p>
         </div>
 
@@ -290,7 +459,7 @@ export function InstagramFeed() {
             <div key={idx} className="rounded-xl overflow-hidden relative group aspect-square cursor-pointer border border-pink-default/10 shadow-sm">
               <img
                 src={post.url}
-                alt="Instagram post"
+                alt="Post redes sociais"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
@@ -306,15 +475,26 @@ export function InstagramFeed() {
           ))}
         </div>
 
-        <a
-          href="https://instagram.com"
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-2 bg-charcoal text-white hover:bg-gold-dark hover:text-white px-7 py-3 rounded-full text-xs uppercase tracking-widest font-bold transition-all shadow-sm cursor-pointer"
-        >
-          <Instagram size={14} />
-          <span>Seguir no Instagram</span>
-        </a>
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <a
+            href="https://www.instagram.com/oficinadosim_/"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 bg-charcoal text-white hover:bg-gold-dark hover:text-white px-7 py-3.5 rounded-full text-xs uppercase tracking-widest font-bold transition-all shadow-sm cursor-pointer"
+          >
+            <Instagram size={16} />
+            <span>Seguir no Instagram</span>
+          </a>
+          <a
+            href="https://www.facebook.com/profile.php?id=61578311908977"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 bg-charcoal text-white hover:bg-gold-dark hover:text-white px-7 py-3.5 rounded-full text-xs uppercase tracking-widest font-bold transition-all shadow-sm cursor-pointer"
+          >
+            <Facebook size={16} />
+            <span>Página no Facebook</span>
+          </a>
+        </div>
       </div>
     </section>
   );
@@ -398,7 +578,7 @@ export function FinalCTA({ openAI, setView }: FinalCTAProps) {
       <div className="max-w-4xl mx-auto px-4 text-center relative z-10 space-y-8">
         <div className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-white/15 text-white text-xs font-bold rounded-full tracking-wider uppercase">
           <Heart size={12} className="fill-current text-pink-default" />
-          <span>Ateliê dos Sonhos</span>
+          <span>Oficina do Sim</span>
         </div>
 
         <h2 className="font-serif text-4xl sm:text-5xl text-white font-semibold tracking-wide leading-tight">
@@ -406,7 +586,7 @@ export function FinalCTA({ openAI, setView }: FinalCTAProps) {
         </h2>
 
         <p className="text-white/80 text-sm sm:text-md max-w-2xl mx-auto leading-relaxed font-light">
-          Quer planejar os detalhes com a gente? Escolha os itens de seu interesse, customize-os online ou fale diretamente com a Victória e a Dani no WhatsApp.
+          Quer planejar os detalhes com a gente? Escolha os itens de seu interesse, customize-os online ou fale diretamente com a Victória e a Daniele no WhatsApp.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
@@ -429,7 +609,7 @@ export function FinalCTA({ openAI, setView }: FinalCTAProps) {
           </button>
 
           <a
-            href="https://wa.me/5511999999999?text=Ol%C3%A1%20Vict%C3%B3ria%20e%20Dani!%20Gostaria%20de%20um%20or%C3%A7amento%20para%20as%20lembran%C3%A7as%20do%20meu%20casamento."
+            href="https://wa.me/5514988156357?text=Ol%C3%A1%20Vict%C3%B3ria%20e%20Daniele!%20Gostaria%20de%20um%20or%C3%A7amento%20para%20as%20lembran%C3%A7as%20do%20meu%20casamento."
             target="_blank"
             rel="noreferrer"
             className="w-full sm:w-auto border border-white text-white hover:bg-white/10 px-8 py-3.5 rounded-full text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all cursor-pointer"

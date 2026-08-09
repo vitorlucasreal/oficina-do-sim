@@ -2,17 +2,19 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Sparkles, X, Send, Heart, MessageCircle, ArrowRight, RefreshCw } from "lucide-react";
 
+import { QuizResult } from "../types";
+
 interface AIConsultantProps {
   isOpen: boolean;
   onClose: () => void;
-  quizResults?: any;
+  quizResults?: QuizResult | null;
 }
 
 export default function AIConsultant({ isOpen, onClose, quizResults }: AIConsultantProps) {
   const [messages, setMessages] = useState<Array<{ role: "user" | "model"; content: string }>>([
     {
       role: "model",
-      content: "Olá! Seja muito bem-vinda ao nosso cantinho. Nós somos a Victória e a Dani, as criadoras da Oficina do Sim. ♥\n\nEstamos aqui para ajudar você a escolher as lembranças e personalizados mais harmônicos e elegantes para o seu grande dia. Você pode nos perguntar sobre paletas de cores, quantidades recomendadas, ideias de frases para as tags ou sugestões de produtos!\n\nQual é o estilo do seu casamento ou sua maior dúvida hoje?"
+      content: "Olá! Seja muito bem-vinda ao nosso cantinho. Nós somos a Victória e a Daniele, as criadoras da Oficina do Sim. ♥\n\nEstamos aqui para ajudar você a escolher as lembranças e personalizados mais harmônicos e elegantes para o seu grande dia. Você pode nos perguntar sobre paletas de cores, quantidades recomendadas, ideias de frases para as tags ou sugestões de produtos!\n\nQual é o estilo do seu casamento ou sua maior dúvida hoje?"
     }
   ]);
   const [input, setInput] = useState("");
@@ -78,7 +80,7 @@ export default function AIConsultant({ isOpen, onClose, quizResults }: AIConsult
         ...prev,
         {
           role: "model",
-          content: "Peço mil desculpas! Tivemos um pequeno ruído na nossa conexão do ateliê. Você poderia tentar me enviar a mensagem novamente ou nos chamar diretamente no WhatsApp?"
+          content: "Peço mil desculpas! Tivemos um pequeno ruído na nossa conexão. Você poderia tentar me enviar a mensagem novamente ou nos chamar diretamente no WhatsApp?"
         }
       ]);
     } finally {
@@ -90,7 +92,7 @@ export default function AIConsultant({ isOpen, onClose, quizResults }: AIConsult
     setMessages([
       {
         role: "model",
-        content: "Olá! Victória e Dani por aqui. Prontas para planejar os detalhes com você! Qual é a sua dúvida hoje?"
+        content: "Olá! Victória e Daniele por aqui. Prontas para planejar os detalhes com você! Qual é a sua dúvida hoje?"
       }
     ]);
   };
@@ -113,10 +115,10 @@ export default function AIConsultant({ isOpen, onClose, quizResults }: AIConsult
               </div>
               <div className="text-left">
                 <h4 className="font-serif text-sm font-bold text-charcoal flex items-center gap-1.5">
-                  <span>Ateliê Virtual da Oficina</span>
+                  <span>Assistente Virtual da Oficina</span>
                 </h4>
                 <p className="text-[10px] text-gold-dark font-semibold uppercase tracking-widest leading-none mt-1">
-                  Victória & Dani IA
+                  Victória & Daniele IA
                 </p>
               </div>
             </div>
@@ -216,7 +218,7 @@ export default function AIConsultant({ isOpen, onClose, quizResults }: AIConsult
           {/* Bottom Trust Seal */}
           <div className="bg-pink-light/25 py-2 px-4 border-t border-pink-default/10 text-center text-[10px] text-charcoal/45 flex items-center justify-center gap-1">
             <Heart size={10} className="text-pink-dark fill-current" />
-            <span>Respostas inspiradas por Victória & Dani</span>
+            <span>Respostas inspiradas por Victória & Daniele</span>
           </div>
         </motion.div>
       )}

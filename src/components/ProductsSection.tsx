@@ -244,16 +244,11 @@ export default function ProductsSection({
                     <Heart size={14} className={isWish ? "fill-red-500 text-red-500" : ""} />
                   </button>
 
-                  {/* Best Seller / Promo Badges */}
+                  {/* Best Seller Badges */}
                   <div className="absolute top-4 left-4 z-10 flex flex-col gap-1.5">
                     {p.isBestSeller && (
                       <span className="bg-gold-default text-white text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full shadow-sm">
                         Mais Vendido
-                      </span>
-                    )}
-                    {p.isPromo && (
-                      <span className="bg-sage-default text-white text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full shadow-sm">
-                        Promoção
                       </span>
                     )}
                   </div>
@@ -307,20 +302,9 @@ export default function ProductsSection({
                     <div className="pt-4 border-t border-pink-default/10 mt-4 flex items-center justify-between">
                       {/* Pricing */}
                       <div className="text-left">
-                        {p.isPromo ? (
-                          <>
-                            <span className="block font-serif text-md sm:text-lg font-bold text-gold-dark leading-none">
-                              R$ {p.promoPrice?.toFixed(2)}
-                            </span>
-                            <span className="text-[10px] text-charcoal/40 line-through">
-                              R$ {p.price.toFixed(2)}
-                            </span>
-                          </>
-                        ) : (
-                          <span className="block font-serif text-md sm:text-lg font-bold text-gold-dark leading-none">
-                            R$ {p.price.toFixed(2)}
-                          </span>
-                        )}
+                        <span className="block font-serif text-md sm:text-lg font-bold text-gold-dark leading-none">
+                          R$ {p.price.toFixed(2)}
+                        </span>
                       </div>
 
                       {/* Buy action */}

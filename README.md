@@ -1,24 +1,20 @@
-# Oficina do Sim
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+</div>
 
-Loja virtual desenvolvida para a empresa Oficina do Sim.
+# Run and deploy your AI Studio app
 
-## Tecnologias
+This contains everything you need to run your app locally.
 
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
+View your app in AI Studio: https://ai.studio/apps/b31ed56a-91bd-4164-a486-91959c161d39
 
-## Funcionalidades
+## Run Locally
 
-- Catálogo de produtos
-- Carrinho
-- Favoritos
-- Quiz para noivas
-- Calculadora de lembrancinhas
-- Consultora IA
-- Kits personalizados
+**Prerequisites:**  Node.js
 
-## Desenvolvedor
 
-Vitor Lucas Real
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
