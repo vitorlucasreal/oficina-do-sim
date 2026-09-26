@@ -1,7 +1,10 @@
 import { useState, useMemo } from "react";
 import { Search, SlidersHorizontal, Heart, Sparkles, Star, ShoppingBag, Eye, Check } from "lucide-react";
-import { PRODUCTS, CATEGORIES } from "../data";
+import { CATEGORIES } from "../data";
 import { Product } from "../types";
+import { useProducts } from "../hooks/useProducts";
+import { useCategories } from "../hooks/useCategories";
+import { generateSlug } from "../utils/categoryUtils";
 
 interface ProductsSectionProps {
   onProductClick: (product: Product) => void;
@@ -24,17 +27,36 @@ export default function ProductsSection({
   const [maxPrice, setMaxPrice] = useState<number>(200);
   const [sortBy, setSortBy] = useState<string>("recommended");
   const [showFilters, setShowFilters] = useState(false);
+  const { products, loading, error } = useProducts();
+  const { activeCategories } = useCategories();
 
   const categoriesWithAll = useMemo(() => {
-    return [{ id: "all", name: "Todos os Itens", description: "", image: "", iconName: "" }, ...CATEGORIES];
-  }, []);
+    const list = activeCategories.length > 0 ? activeCategories : CATEGORIES;
+    return [
+      { id: "all", name: "Todos os Itens", slug: "all", active: true, description: "", image: "", iconName: "" },
+      ...list,
+    ];
+  }, [activeCategories]);
 
   // Filter & Sort Logic
   const filteredProducts = useMemo(() => {
-    let result = [...PRODUCTS];
+    let result = [...products];
 
     if (selectedCategory !== "all") {
-      result = result.filter((p) => p.category === selectedCategory);
+      result = result.filter((p) => {
+        if (p.categoryId === selectedCategory) return true;
+        const catSlug = generateSlug(p.category);
+        const selectedCat = categoriesWithAll.find((c) => c.id === selectedCategory);
+        if (selectedCat) {
+          return (
+            p.category === selectedCat.slug ||
+            p.category.toLowerCase() === selectedCat.name.toLowerCase() ||
+            catSlug === selectedCat.slug ||
+            p.categoryId === selectedCat.id
+          );
+        }
+        return p.category === selectedCategory || catSlug === selectedCategory;
+      });
     }
 
     if (search.trim()) {
@@ -74,18 +96,18 @@ export default function ProductsSection({
     }
 
     return result;
-  }, [selectedCategory, search, onlyCustomizable, maxPrice, sortBy]);
+  }, [products, selectedCategory, search, onlyCustomizable, maxPrice, sortBy, categoriesWithAll]);
 
   return (
-    <section className="py-16 bg-white min-h-[80vh] text-left">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <section id="shop" className="py-10 sm:py-16 bg-white min-h-[80vh] text-left scroll-mt-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12">
         
         {/* Visual Category quick selection slider */}
         <div className="space-y-4">
-          <span className="text-[10px] uppercase tracking-widest text-gold-dark font-bold bg-gold-light/60 px-3.5 py-1 rounded-full block w-fit">
+          <span className="text-xs uppercase tracking-widest text-gold-dark font-bold bg-gold-light/60 px-3.5 py-1 rounded-full block w-fit">
             Navegar Catálogo
           </span>
-          <h2 className="font-serif text-3xl text-charcoal font-semibold tracking-wide">
+          <h2 className="font-serif text-2xl sm:text-3xl text-charcoal font-semibold tracking-wide">
             Nossos Mimos e Detalhes
           </h2>
           
@@ -99,10 +121,10 @@ export default function ProductsSection({
                     setSelectedCategory(cat.id);
                     window.scrollTo({ top: 300, behavior: "smooth" });
                   }}
-                  className={`px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase shrink-0 border transition-all duration-200 focus:outline-none cursor-pointer ${
+                  className={`px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase shrink-0 border transition-all duration-200 focus:outline-none cursor-pointer whitespace-nowrap ${
                     isActive
                       ? "bg-gold-default text-white border-gold-default shadow-xs"
-                      : "bg-offwhite text-charcoal/70 border-pink-default/20 hover:border-pink-default"
+                      : "bg-offwhite text-charcoal/80 border-pink-default/20 hover:border-pink-default"
                   }`}
                 >
                   {cat.name}
@@ -123,7 +145,7 @@ export default function ProductsSection({
               placeholder="Pesquisar por velinhas, taças, kits..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-white text-xs sm:text-sm pl-11 pr-4 py-2.5 rounded-xl border border-pink-default/20 focus:outline-none focus:border-gold-default text-charcoal"
+              className="w-full bg-white text-sm sm:text-base pl-11 pr-4 py-2.5 rounded-xl border border-pink-default/20 focus:outline-none focus:border-gold-default text-charcoal"
             />
           </div>
 
@@ -134,7 +156,7 @@ export default function ProductsSection({
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs font-semibold transition-all focus:outline-none ${
                 showFilters || onlyCustomizable || maxPrice < 200
                   ? "border-gold-default bg-gold-light/20 text-gold-dark font-bold"
-                  : "border-pink-default/20 bg-white text-charcoal/70"
+                  : "border-pink-default/20 bg-white text-charcoal/80"
               }`}
             >
               <SlidersHorizontal size={14} />
@@ -192,7 +214,7 @@ export default function ProductsSection({
                 />
                 <div>
                   <span className="font-semibold text-charcoal block group-hover:text-gold-dark">Apenas Itens Personalizáveis</span>
-                  <span className="text-[10px] text-charcoal/50">Permitem gravar nomes, monogramas e datas</span>
+                  <span className="text-[10px] text-charcoal/75">Permitem gravar nomes, monogramas e datas</span>
                 </div>
               </label>
             </div>
@@ -206,7 +228,7 @@ export default function ProductsSection({
                   setSearch("");
                   setSelectedCategory("all");
                 }}
-                className="px-5 py-2.5 border border-pink-default/20 hover:border-charcoal hover:bg-white text-charcoal/70 rounded-xl transition-all font-semibold"
+                className="px-5 py-2.5 border border-pink-default/20 hover:border-charcoal hover:bg-white text-charcoal/80 rounded-xl transition-all font-semibold"
               >
                 Limpar Todos os Filtros
               </button>
@@ -215,21 +237,44 @@ export default function ProductsSection({
         )}
 
         {/* E-shop grid card list */}
-        {filteredProducts.length === 0 ? (
+        {filteredProducts.length === 0 && !loading && !error ? (
           <div className="py-24 text-center space-y-4">
             <div className="w-16 h-16 rounded-full bg-pink-light/60 flex items-center justify-center text-gold-dark mx-auto">
               <ShoppingBag size={24} />
             </div>
             <div>
               <h4 className="font-serif text-lg font-bold text-charcoal">Nenhum mimo encontrado</h4>
-              <p className="text-xs text-charcoal/50 max-w-sm mx-auto mt-1 font-light leading-relaxed">
+              <p className="text-xs text-charcoal/75 max-w-sm mx-auto mt-1  leading-relaxed">
                 Nossos produtos são limitados. Experimente ajustar os filtros ou digitar um termo diferente na busca.
               </p>
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {filteredProducts.map((p) => {
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+            {loading ? (
+              Array(8).fill(0).map((_, idx) => (
+                <div key={idx} className="bg-white rounded-3xl border border-pink-default/20 overflow-hidden shadow-xs animate-pulse flex flex-col h-[400px]">
+                  <div className="aspect-square bg-pink-light/40 w-full" />
+                  <div className="p-5 flex-1 flex flex-col justify-between">
+                    <div className="space-y-3">
+                      <div className="h-2 w-1/3 bg-gray-200 rounded" />
+                      <div className="h-4 w-3/4 bg-gray-200 rounded" />
+                      <div className="h-2 w-1/4 bg-gray-200 rounded" />
+                    </div>
+                    <div className="pt-4 border-t border-pink-default/10 mt-4 flex justify-between">
+                      <div className="h-4 w-1/3 bg-gray-200 rounded" />
+                      <div className="h-8 w-1/3 bg-gray-200 rounded-xl" />
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : error ? (
+              <div className="col-span-full py-16 text-center text-red-500 bg-red-50 rounded-3xl border border-red-100 flex flex-col items-center justify-center">
+                <span className="font-semibold text-lg mb-2">Ops, algo deu errado.</span>
+                <p className="max-w-md mx-auto text-sm">{error}</p>
+              </div>
+            ) : (
+              filteredProducts.map((p) => {
               const isWish = wishlist.some((item) => item.id === p.id);
               return (
                 <div
@@ -239,7 +284,7 @@ export default function ProductsSection({
                   {/* Heart Wishlist Trigger */}
                   <button
                     onClick={() => toggleWishlist(p)}
-                    className="absolute top-4 right-4 z-10 p-2 bg-white/90 hover:bg-white rounded-full text-charcoal/50 hover:text-red-500 transition-colors shadow-sm focus:outline-none"
+                    className="absolute top-4 right-4 z-10 p-2 bg-white/90 hover:bg-white rounded-full text-charcoal/75 hover:text-red-500 transition-colors shadow-sm focus:outline-none"
                   >
                     <Heart size={14} className={isWish ? "fill-red-500 text-red-500" : ""} />
                   </button>
@@ -277,7 +322,7 @@ export default function ProductsSection({
                   {/* Content details and Buy footer triggers */}
                   <div className="p-5 flex-1 flex flex-col justify-between">
                     <div className="space-y-2 text-left">
-                      <div className="flex items-center gap-1.5 text-[9.5px] text-charcoal/50 font-bold uppercase tracking-widest">
+                      <div className="flex items-center gap-1.5 text-[9.5px] text-charcoal/75 font-bold uppercase tracking-widest">
                         <span>{p.category.replace("-", " ")}</span>
                         {p.customizable && (
                           <span className="inline-flex items-center gap-0.5 text-gold-dark font-extrabold bg-gold-light/40 px-1.5 py-0.5 rounded">
@@ -295,7 +340,7 @@ export default function ProductsSection({
 
                       <div className="flex items-center gap-1 text-gold-default">
                         <Star size={11} className="fill-current" />
-                        <span className="text-[11px] font-semibold text-charcoal/60">{p.rating.toFixed(1)}</span>
+                        <span className="text-[11px] font-semibold text-charcoal/75">{p.rating.toFixed(1)}</span>
                       </div>
                     </div>
 
@@ -327,7 +372,8 @@ export default function ProductsSection({
 
                 </div>
               );
-            })}
+            })
+            )}
           </div>
         )}
 

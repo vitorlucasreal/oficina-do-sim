@@ -35,26 +35,16 @@ export default function Footer({ setView }: FooterProps) {
               <img
                 src="/images/logo_oficina_sim_1786290754245.jpeg"
                 alt="Oficina do Sim Logo"
-                className="h-14 w-auto object-contain rounded-lg bg-white p-1"
+                className="h-20 sm:h-24 w-auto object-contain rounded-xl bg-white p-2 shadow-lg shrink-0"
               />
-
-              <div>
-                <span className="font-serif text-xl tracking-widest text-gold-light uppercase font-bold block">
-                  Oficina do Sim
-                </span>
-
-                <span className="text-[10px] uppercase tracking-widest text-gold-default font-semibold block mt-0.5">
-                  Lembranças & Personalizados
+              <div className="max-w-[160px]">
+                <span className="block text-xs uppercase tracking-widest text-gold-light font-semibold leading-relaxed">
+                  Tudo o que você precisa para seu grande dia
                 </span>
               </div>
+
             </div>
 
-            <p className="text-gray-300 text-sm leading-relaxed font-light">
-              Fundada pelas apaixonadas Victória e Daniele, a Oficina do Sim
-              nasceu para materializar o afeto em detalhes elegantes,
-              rústicos-chic e contemporâneos. Transformamos momentos especiais
-              em memórias inesquecíveis para todo o Brasil.
-            </p>
 
             <div className="flex gap-3 items-center">
 
@@ -82,7 +72,7 @@ export default function Footer({ setView }: FooterProps) {
 
               {/* WhatsApp */}
               <a
-                href="https://wa.me/5514988156357"
+                href="https://wa.me/5514997383526?text=Ol%C3%A1!%20Gostaria%20de%20conhecer%20mais%20sobre%20a%20Oficina%20do%20Sim."
                 target="_blank"
                 rel="noreferrer"
                 className="w-10 h-10 rounded-full border border-white/10 hover:border-gold-default hover:text-gold-default flex items-center justify-center text-gray-300 transition-colors"
@@ -136,6 +126,7 @@ export default function Footer({ setView }: FooterProps) {
                 </button>
               </li>
 
+              {/* TEMPORARILY DISABLED
               <li>
                 <button
                   onClick={() => handleNav("kit-builder")}
@@ -144,7 +135,9 @@ export default function Footer({ setView }: FooterProps) {
                   Monte seu Kit
                 </button>
               </li>
+              */}
 
+              {/* TEMPORARILY DISABLED
               <li>
                 <button
                   onClick={() => handleNav("quiz")}
@@ -153,6 +146,7 @@ export default function Footer({ setView }: FooterProps) {
                   Estilo Quiz
                 </button>
               </li>
+              */}
             </ul>
           </div>
 
@@ -181,12 +175,12 @@ export default function Footer({ setView }: FooterProps) {
                   </svg>
 
                   <a
-                    href="https://wa.me/5514988156357"
+                    href="https://wa.me/5514997383526?text=Ol%C3%A1!%20Gostaria%20de%20conhecer%20mais%20sobre%20a%20Oficina%20do%20Sim."
                     target="_blank"
                     rel="noreferrer"
-                    className="font-light hover:text-gold-default transition-colors"
+                    className=" hover:text-gold-default transition-colors"
                   >
-                    +55 14 98815-6357
+                    +55 14 99738-3526
                   </a>
                 </li>
 
@@ -196,7 +190,7 @@ export default function Footer({ setView }: FooterProps) {
 
                   <a
                     href="mailto:atendimento.oficinadosim@gmail.com"
-                    className="font-light hover:text-gold-default transition-colors"
+                    className="hover:text-gold-default transition-colors break-all"
                   >
                     atendimento.oficinadosim@gmail.com
                   </a>
@@ -218,7 +212,7 @@ export default function Footer({ setView }: FooterProps) {
                     className="text-gold-default shrink-0 mt-1"
                   />
 
-                  <span className="font-light">
+                  <span className="">
                     Pederneiras, SP
                   </span>
                 </li>
@@ -270,11 +264,11 @@ export default function Footer({ setView }: FooterProps) {
 
               <div>
                 <p className="text-[11px] font-semibold text-gray-200">
-                  Compra Segura
+                  Conexão Segura
                 </p>
 
                 <p className="text-[9px] text-gray-400">
-                  Ambiente protegido SSL
+                  Site protegido por HTTPS
                 </p>
               </div>
             </div>

@@ -12,14 +12,14 @@ export default function FavorsCalculator() {
   const totalFavors = calculatedBase + extraItems;
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-12 sm:py-24 bg-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-16">
           <span className="text-[10px] uppercase tracking-widest text-gold-dark font-bold bg-gold-light/60 px-3.5 py-1 rounded-full">
             Ferramenta Inteligente
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl text-charcoal font-semibold mt-3 tracking-wide">
+          <h2 className="font-serif text-2xl sm:text-4xl text-charcoal font-semibold mt-3 tracking-wide">
             Calculadora de Lembrancinhas
           </h2>
           <p className="text-charcoal/60 text-xs sm:text-sm mt-3">
@@ -27,10 +27,10 @@ export default function FavorsCalculator() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-stretch">
           
           {/* Left panel: Inputs */}
-          <div className="md:col-span-7 bg-offwhite p-6 sm:p-8 rounded-3xl border border-pink-default/20 flex flex-col justify-between text-left">
+          <div className="md:col-span-7 bg-offwhite p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-pink-default/20 flex flex-col justify-between text-left">
             <div className="space-y-6">
               
               {/* Sliders/Guest Count */}
@@ -55,10 +55,10 @@ export default function FavorsCalculator() {
                 <span className="text-xs sm:text-sm font-semibold text-charcoal block">
                   Como pretende distribuir?
                 </span>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <button
                     onClick={() => setFavorType("individual")}
-                    className={`p-4 rounded-2xl border text-center transition-all ${
+                    className={`p-4 rounded-2xl border text-center transition-all cursor-pointer ${
                       favorType === "individual"
                         ? "border-gold-default bg-gold-light/20 text-gold-dark font-bold"
                         : "border-pink-default/25 bg-white text-charcoal/60"
@@ -69,7 +69,7 @@ export default function FavorsCalculator() {
                   </button>
                   <button
                     onClick={() => setFavorType("couple")}
-                    className={`p-4 rounded-2xl border text-center transition-all ${
+                    className={`p-4 rounded-2xl border text-center transition-all cursor-pointer ${
                       favorType === "couple"
                         ? "border-gold-default bg-gold-light/20 text-gold-dark font-bold"
                         : "border-pink-default/25 bg-white text-charcoal/60"
@@ -86,12 +86,12 @@ export default function FavorsCalculator() {
                 <span className="text-xs sm:text-sm font-semibold text-charcoal block">
                   Margem de Segurança recomendada
                 </span>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap sm:flex-nowrap gap-2">
                   {[5, 10, 15].map((pct) => (
                     <button
                       key={pct}
                       onClick={() => setMargin(pct)}
-                      className={`flex-1 py-2 rounded-xl text-xs font-semibold border transition-all ${
+                      className={`flex-1 min-w-[70px] py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
                         margin === pct
                           ? "bg-sage-default text-white border-sage-default font-bold"
                           : "bg-white text-charcoal/70 border-pink-default/25 hover:bg-pink-light/35"
@@ -114,7 +114,7 @@ export default function FavorsCalculator() {
           </div>
 
           {/* Right panel: Output Results */}
-          <div className="md:col-span-5 bg-gradient-to-br from-pink-light to-gold-light/40 p-6 sm:p-8 rounded-3xl border border-pink-default/25 flex flex-col justify-between text-left">
+          <div className="md:col-span-5 bg-gradient-to-br from-pink-light to-gold-light/40 p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-pink-default/25 flex flex-col justify-between text-left">
             <div className="space-y-6">
               <div className="inline-flex items-center gap-1 bg-white/60 px-3 py-1 rounded-full text-[10px] text-gold-dark font-bold uppercase tracking-wider border border-gold-default/10">
                 <Sparkles size={11} />
@@ -148,7 +148,7 @@ export default function FavorsCalculator() {
 
             <div className="pt-8">
               <a
-                href="https://wa.me/5514988156357"
+                href="https://wa.me/5514997383526?text=Ol%C3%A1!%20Gostaria%20de%20conhecer%20mais%20sobre%20a%20Oficina%20do%20Sim."
                 target="_blank"
                 rel="noreferrer"
                 className="w-full bg-charcoal text-white hover:bg-gold-dark py-3.5 rounded-2xl text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer"

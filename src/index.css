@@ -5,19 +5,19 @@
   --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
   
-  --color-gold-light: #F4E2D6;
-  --color-gold-default: #C9974D;
-  --color-gold-dark: #A07530;
-  --color-rose-default: #D49A7A;
-  --color-blush-default: #E9B8A7;
-  --color-sage-light: #8FA08B;
-  --color-sage-default: #6D816F;
-  --color-sage-dark: #49604B;
-  --color-pink-light: #FAF6F2;
-  --color-pink-default: #E9B8A7;
-  --color-pink-dark: #D49A7A;
-  --color-offwhite: #FAF6F2;
-  --color-charcoal: #3A3A3A;
+  --color-gold-light: #FBE6D3;
+  --color-gold-default: #E3993A;
+  --color-gold-dark: #BA7822;
+  --color-rose-default: #E28861;
+  --color-blush-default: #F29E7D;
+  --color-sage-light: #8BA883;
+  --color-sage-default: #4B7853;
+  --color-sage-dark: #2F5236;
+  --color-pink-light: #FCECE4;
+  --color-pink-default: #F29E7D;
+  --color-pink-dark: #E28861;
+  --color-offwhite: #FFFDFB;
+  --color-charcoal: #2C2C2C;
 }
 
 /* Custom styles for premium typography and transitions */
@@ -57,5 +57,24 @@ h1, h2, h3, h4, h5, h6, .font-serif-title {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-sage-default);
+}
+
+/* Modal specific discreet scrollbar */
+.modal-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(200, 169, 110, 0.45) transparent;
+}
+.modal-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.modal-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.modal-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(200, 169, 110, 0.45);
+  border-radius: 9999px;
+}
+.modal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(200, 169, 110, 0.75);
 }
 

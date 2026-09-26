@@ -3,73 +3,147 @@ import { Product, Category, Testimonial, BlogPost, KitItem } from "./types";
 export const CATEGORIES: Category[] = [
   {
     id: "kits-padrinhos",
-    name: "Kits para padrinhos",
+    name: "Kits para Padrinhos",
+    slug: "kits-padrinhos",
+    active: true,
     description: "Conjuntos completos e sofisticados para convidar ou agradecer seus padrinhos de forma inesquecível.",
     image: "https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&q=80&w=600",
+    image_url: "https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&q=80&w=600",
+    is_featured_home: false,
+    home_order: 0,
     iconName: "Gift"
   },
   {
     id: "itens-montagem",
-    name: "Itens para montagem",
+    name: "Itens para Montagem",
+    slug: "itens-montagem",
+    active: true,
     description: "Produtos avulsos de alta qualidade para você compor sua caixa de forma livre e criativa.",
     image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=600",
+    image_url: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=600",
+    is_featured_home: false,
+    home_order: 0,
     iconName: "Grid"
   },
   {
     id: "lembrancinhas",
     name: "Lembrancinhas",
+    slug: "lembrancinhas",
+    active: true,
     description: "Mimos delicados para encantar seus convidados e eternizar a memória do seu grande dia.",
     image: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&q=80&w=600",
+    image_url: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&q=80&w=600",
+    is_featured_home: false,
+    home_order: 0,
     iconName: "Heart"
   },
   {
     id: "tacas-copos",
     name: "Taças e Copos",
+    slug: "tacas-copos",
+    active: true,
     description: "Cristais e vidros personalizados com gravação permanente para brindar em alto estilo.",
     image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&q=80&w=600",
+    image_url: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&q=80&w=600",
+    is_featured_home: false,
+    home_order: 0,
     iconName: "GlassWater"
   },
   {
     id: "acessorios-noiva",
     name: "Acessórios da Noiva",
+    slug: "acessorios-noiva",
+    active: true,
     description: "Cabides gravados, robes de cetim, caixas de alianças e mimos exclusivos para o seu dia de noiva.",
-    image: "https://images.unsplash.com/photo-1591555200577-03518c6cd481?auto=format&fit=crop&q=80&w=600",
+    image: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=600",
+    image_url: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=600",
+    is_featured_home: false,
+    home_order: 0,
+    iconName: "Sparkles"
+  },
+  {
+    id: "acessorios",
+    name: "Acessórios",
+    slug: "acessorios",
+    active: true,
+    description: "Terços, acessórios e detalhes especiais para noivos e padrinhos.",
+    image: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=600",
+    image_url: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=600",
+    is_featured_home: false,
+    home_order: 0,
     iconName: "Sparkles"
   },
   {
     id: "topos-bolo",
     name: "Topos de Bolo",
+    slug: "topos-bolo",
+    active: true,
     description: "Esculturas minimalistas e personalizadas que dão o toque final de elegância ao seu bolo.",
-    image: "https://images.unsplash.com/photo-1535141192574-5d4897c13636?auto=format&fit=crop&q=80&w=600",
+    image: "https://images.unsplash.com/photo-1535295972055-1c762f4483e5?auto=format&fit=crop&q=80&w=600",
+    image_url: "https://images.unsplash.com/photo-1535295972055-1c762f4483e5?auto=format&fit=crop&q=80&w=600",
+    is_featured_home: false,
+    home_order: 0,
     iconName: "Cake"
   },
   {
     id: "velas-aromaticas",
     name: "Velas Aromáticas",
+    slug: "velas-aromaticas",
+    active: true,
     description: "Velas artesanais feitas com cera de coco e essências premium em potes de vidro decorados.",
     image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&q=80&w=600",
+    image_url: "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&q=80&w=600",
+    is_featured_home: false,
+    home_order: 0,
     iconName: "Flame"
   },
   {
     id: "embalagens",
     name: "Embalagens",
+    slug: "embalagens",
+    active: true,
     description: "Sacos de linho, caixas cartonadas, fitas de cetim e tags personalizadas para um acabamento impecável.",
     image: "https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&q=80&w=600",
+    image_url: "https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&q=80&w=600",
+    is_featured_home: false,
+    home_order: 0,
     iconName: "PackageOpen"
   },
   {
     id: "convites",
     name: "Convites",
+    slug: "convites",
+    active: true,
     description: "Papelaria fina, menus, lágrimas de alegria e convites impressos em papéis nobres com acabamento artesanal.",
     image: "https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&q=80&w=600",
+    image_url: "https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&q=80&w=600",
+    is_featured_home: false,
+    home_order: 0,
     iconName: "MailOpen"
   },
   {
     id: "caixas-personalizadas",
     name: "Caixas Personalizadas",
+    slug: "caixas-personalizadas",
+    active: true,
     description: "Caixas em MDF laqueado, madeira pinus ou cartonagem rígida com gravação a laser ou hot stamping.",
     image: "https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&q=80&w=600",
+    image_url: "https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&q=80&w=600",
+    is_featured_home: false,
+    home_order: 0,
     iconName: "Inbox"
+  },
+  {
+    id: "teste",
+    name: "Teste",
+    slug: "teste",
+    active: true,
+    description: "Categoria de teste para validação de novos produtos e recursos.",
+    image: "https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&q=80&w=600",
+    image_url: "https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&q=80&w=600",
+    is_featured_home: false,
+    home_order: 0,
+    iconName: "Sparkles"
   }
 ];
 
@@ -188,14 +262,14 @@ export const PRODUCTS: Product[] = [
     name: "Topo de Bolo Silhueta Minimalista",
     description: "Topo de bolo moderno recortado a laser com precisão cirúrgica em acrílico espelhado dourado, prata, ou madeira de pinus delicada. Silhueta estilizada ou iniciais dos noivos em design minimalista contemporâneo.",
     price: 98.00,
-    image: "https://images.unsplash.com/photo-1535141192574-5d4897c13636?auto=format&fit=crop&q=80&w=600",
+    image: "https://images.unsplash.com/photo-1535295972055-1c762f4483e5?auto=format&fit=crop&q=80&w=600",
     rating: 4.9,
     category: "topos-bolo",
     customizable: true,
     isBestSeller: false,
     features: ["Disponível em acrílico dourado espelhado, preto brilhante ou MDF amadeirado", "Haste de fixação transparente de 8cm", "Design exclusivo desenhado por Victória e Daniele", "Fácil higienização"],
     galleryImages: [
-      "https://images.unsplash.com/photo-1535141192574-5d4897c13636?auto=format&fit=crop&q=80&w=600"
+      "https://images.unsplash.com/photo-1535295972055-1c762f4483e5?auto=format&fit=crop&q=80&w=600"
     ]
   }
 ];

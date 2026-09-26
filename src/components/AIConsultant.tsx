@@ -101,13 +101,13 @@ export default function AIConsultant({ isOpen, onClose, quizResults }: AIConsult
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 100 }}
-          className="fixed bottom-6 right-6 z-50 w-full max-w-md bg-white border border-gold-default/20 rounded-3xl shadow-2xl overflow-hidden flex flex-col h-[600px] border-b-4 border-b-gold-default"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          className="fixed inset-x-3 bottom-3 sm:inset-x-auto sm:bottom-6 sm:right-6 z-50 sm:w-full sm:max-w-md bg-white border border-gold-default/20 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col h-[520px] sm:h-[600px] max-h-[85vh] border-b-4 border-b-gold-default"
         >
           {/* Header of Chat */}
-          <div className="bg-gradient-to-r from-pink-light to-gold-light/40 px-6 py-4 flex items-center justify-between border-b border-pink-default/20">
+          <div className="bg-gradient-to-r from-pink-light to-gold-light/40 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between border-b border-pink-default/20">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full border border-gold-default/30 bg-white flex items-center justify-center text-gold-dark shadow-xs relative">
                 <Sparkles size={18} className="animate-pulse" />
@@ -126,14 +126,17 @@ export default function AIConsultant({ isOpen, onClose, quizResults }: AIConsult
             <div className="flex items-center gap-2">
               <button
                 onClick={handleClear}
-                className="p-1.5 hover:bg-white/75 rounded-full text-charcoal/50 hover:text-charcoal transition-colors"
+                className="p-2 hover:bg-white/75 rounded-full text-charcoal/50 hover:text-charcoal transition-colors min-w-[36px] min-h-[36px] flex items-center justify-center cursor-pointer"
                 title="Limpar Conversa"
+                aria-label="Limpar Conversa"
               >
                 <RefreshCw size={14} />
               </button>
               <button
                 onClick={onClose}
-                className="p-1.5 hover:bg-white/75 rounded-full text-charcoal/50 hover:text-charcoal transition-colors focus:outline-none"
+                className="p-2 hover:bg-white/75 rounded-full text-charcoal/50 hover:text-charcoal transition-colors focus:outline-none min-w-[36px] min-h-[36px] flex items-center justify-center cursor-pointer"
+                title="Fechar"
+                aria-label="Fechar Assistente"
               >
                 <X size={18} />
               </button>
@@ -143,7 +146,7 @@ export default function AIConsultant({ isOpen, onClose, quizResults }: AIConsult
           {/* Messages Body */}
           <div
             ref={scrollRef}
-            className="flex-1 p-6 overflow-y-auto space-y-4 bg-offwhite/50 text-left scrollbar-thin"
+            className="flex-1 p-4 sm:p-6 overflow-y-auto space-y-4 bg-offwhite/50 text-left scrollbar-thin"
           >
             {messages.map((m, idx) => (
               <div

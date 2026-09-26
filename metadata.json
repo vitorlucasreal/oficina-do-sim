@@ -1,6 +1,6 @@
 {
-  "name": "",
-  "description": "",
+  "name": "Oficina do Sim | Lembranças e Personalizados",
+  "description": "A Oficina do Sim transforma momentos especiais em memórias inesquecíveis. Lembranças, convites e kits personalizados e exclusivos para o seu casamento e eventos especiais, desenhados por Victória e Daniele.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
