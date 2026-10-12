@@ -964,7 +964,10 @@ export default function CategoryManager() {
 
       {/* Tabela de Categorias */}
       <div className="bg-white rounded-3xl border border-pink-default/20 overflow-hidden shadow-xs">
-        <div className="overflow-x-auto">
+        <div 
+          className="overflow-x-auto no-scrollbar"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
           <table className="w-full text-left text-xs">
             <thead className="bg-offwhite text-charcoal/60 uppercase tracking-widest text-[10px] font-bold border-b border-pink-default/15">
               <tr>

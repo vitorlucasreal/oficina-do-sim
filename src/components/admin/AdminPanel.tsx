@@ -24,15 +24,29 @@ export default function AdminPanel({ onClose }: AdminPanelProps) {
   return (
     <div className="min-h-screen bg-offwhite flex flex-col md:flex-row text-charcoal font-sans">
       {/* Sidebar - Desktop & Topbar Mobile */}
-      <aside className="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-pink-default/20 flex flex-col shrink-0">
-        <div className="p-6 border-b border-pink-default/20 flex items-center justify-between">
-          <h2 className="font-serif font-bold text-xl text-charcoal text-center md:text-left w-full">Painel Admin</h2>
-          <button onClick={onClose} className="md:hidden p-2 text-charcoal/50 hover:text-charcoal bg-offwhite rounded-full">
-            <ArrowLeft size={16} />
+      <aside className="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-pink-default/20 flex flex-col shrink-0 md:sticky md:top-0 md:h-screen md:overflow-y-auto">
+        {/* Top Header with Balanced Layout */}
+        <div className="p-4 sm:p-5 border-b border-pink-default/20 flex items-center justify-between gap-3 shrink-0 bg-white">
+          <div className="min-w-0 flex-1">
+            <h2 className="font-serif font-bold text-lg sm:text-xl text-charcoal leading-tight truncate">
+              Painel Admin
+            </h2>
+            <span className="text-[10px] uppercase tracking-widest text-charcoal/50 font-bold block mt-0.5">
+              OFICINA DO SIM
+            </span>
+          </div>
+          <button 
+            onClick={onClose} 
+            className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-charcoal/75 hover:text-red-600 bg-pink-light/30 hover:bg-red-50 border border-pink-default/20 hover:border-red-200 rounded-xl transition-all cursor-pointer shadow-2xs"
+            title="Sair do Painel"
+            aria-label="Sair do Painel"
+          >
+            <LogOut size={14} />
+            <span className="whitespace-nowrap">Sair do Painel</span>
           </button>
         </div>
         
-        <nav className="p-3 sm:p-4 flex-1 flex md:flex-col gap-1.5 sm:gap-2 overflow-x-auto md:overflow-visible scrollbar-none">
+        <nav className="p-3 sm:p-4 flex-1 flex md:flex-col gap-1.5 sm:gap-2 overflow-x-auto md:overflow-visible no-scrollbar">
           <button
             onClick={() => { setActiveTab("list"); setEditingProduct(null); }}
             className={`flex-shrink-0 md:w-full flex items-center justify-center md:justify-start gap-2 sm:gap-3 px-3 py-2 sm:px-4 sm:py-3 rounded-xl transition-colors whitespace-nowrap text-xs sm:text-sm cursor-pointer ${
@@ -70,20 +84,11 @@ export default function AdminPanel({ onClose }: AdminPanelProps) {
             </button>
           )}
         </nav>
-        
-        <div className="p-4 border-t border-pink-default/20 hidden md:block">
-          <button 
-            onClick={onClose} 
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold text-charcoal/60 hover:text-charcoal hover:bg-pink-light rounded-xl transition-colors"
-          >
-            <LogOut size={16} /> Sair do Painel
-          </button>
-        </div>
       </aside>
 
       {/* Main Content */}
       <main className="flex-1 p-4 sm:p-6 md:p-10 overflow-y-auto">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-[1200px] mx-auto">
           {activeTab === "list" && <ProductList onEdit={handleEdit} />}
           {activeTab === "create" && <ProductForm mode="create" onCancel={() => setActiveTab("list")} />}
           {activeTab === "edit" && editingProduct && (

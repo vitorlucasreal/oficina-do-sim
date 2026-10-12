@@ -1,6 +1,6 @@
 import { useAdminProducts } from "../../hooks/useAdminProducts";
 import { AdminProduct } from "./types";
-import { Edit, Eye, EyeOff, Search, Power } from "lucide-react";
+import { Edit, Eye, EyeOff, Search, Trash2, AlertTriangle } from "lucide-react";
 import { useState, useMemo } from "react";
 import { supabase } from "../../lib/supabase";
 import { useCategories } from "../../hooks/useCategories";
@@ -14,6 +14,8 @@ export default function ProductList({ onEdit }: { onEdit: (p: AdminProduct) => v
   const [search, setSearch] = useState("");
   const [isUpdating, setIsUpdating] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [productToDelete, setProductToDelete] = useState<AdminProduct | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const categoryMap = useMemo(() => {
     const map = new Map<string, string>();
@@ -44,6 +46,36 @@ export default function ProductList({ onEdit }: { onEdit: (p: AdminProduct) => v
     }
   };
 
+  const handleDelete = async (product: AdminProduct) => {
+    setIsDeleting(true);
+    try {
+      // First attempt physical deletion
+      const { error: deleteError } = await supabase
+        .from("products")
+        .delete()
+        .eq("id", product.id);
+
+      if (deleteError) {
+        // If relational tables (orders, order_items, quotes) reference this product, safely deactivate
+        console.warn("Exclusão física impedida por integridade referencial. Desativando com segurança:", deleteError.message);
+        const { error: deactivateError } = await supabase
+          .from("products")
+          .update({ active: false })
+          .eq("id", product.id);
+
+        if (deactivateError) throw deactivateError;
+      }
+
+      await refetch();
+      setProductToDelete(null);
+    } catch (err: any) {
+      console.error("Erro ao processar exclusão do produto:", err);
+      alert("Ocorreu um erro ao excluir o produto. Tente novamente.");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   const filteredProducts = useMemo(() => {
     return products.filter((p) => 
       p.name.toLowerCase().includes(search.toLowerCase()) || 
@@ -70,7 +102,7 @@ export default function ProductList({ onEdit }: { onEdit: (p: AdminProduct) => v
   }
 
   return (
-    <div className="space-y-6 w-full max-w-[1187px]">
+    <div className="space-y-6 w-full max-w-[1200px]">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <h3 className="font-serif text-2xl font-bold text-charcoal">Gerenciar Produtos</h3>
         <div className="relative">
@@ -85,8 +117,11 @@ export default function ProductList({ onEdit }: { onEdit: (p: AdminProduct) => v
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl border border-pink-default/20 overflow-hidden shadow-sm">
-        <div className="overflow-x-auto">
+      <div className="bg-white rounded-3xl border border-pink-default/20 overflow-hidden shadow-sm w-[1200px] max-w-full">
+        <div 
+          className="overflow-x-auto no-scrollbar"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
           <table className="w-full text-left text-sm whitespace-nowrap">
             <thead className="bg-offwhite text-charcoal/60 uppercase tracking-widest text-[10px] font-bold">
               <tr>
@@ -150,7 +185,7 @@ export default function ProductList({ onEdit }: { onEdit: (p: AdminProduct) => v
                       onClick={() => handleToggleActive(p)}
                       disabled={isUpdating === p.id}
                       aria-label={p.active ? "Desativar Produto" : "Ativar Produto"}
-                      className={`p-2 inline-flex min-w-[36px] min-h-[36px] items-center justify-center transition-colors bg-white rounded-lg shadow-sm border border-transparent mr-2 cursor-pointer ${p.active ? 'text-charcoal/50 hover:text-red-500 hover:bg-red-50 hover:border-red-100' : 'text-charcoal/50 hover:text-green-600 hover:bg-green-50 hover:border-green-100'} ${isUpdating === p.id ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      className={`p-2 inline-flex min-w-[36px] min-h-[36px] items-center justify-center transition-colors bg-white rounded-lg shadow-sm border border-transparent mr-1.5 cursor-pointer ${p.active ? 'text-charcoal/50 hover:text-amber-600 hover:bg-amber-50 hover:border-amber-100' : 'text-charcoal/50 hover:text-green-600 hover:bg-green-50 hover:border-green-100'} ${isUpdating === p.id ? 'opacity-50 cursor-not-allowed' : ''}`}
                       title={p.active ? "Desativar Produto" : "Ativar Produto"}
                     >
                       {p.active ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -159,10 +194,19 @@ export default function ProductList({ onEdit }: { onEdit: (p: AdminProduct) => v
                       onClick={() => onEdit(p)} 
                       disabled={isUpdating === p.id}
                       aria-label="Editar Produto"
-                      className="p-2 inline-flex min-w-[36px] min-h-[36px] items-center justify-center text-charcoal/50 hover:text-gold-default transition-colors bg-white hover:bg-pink-light rounded-lg shadow-sm border border-transparent hover:border-pink-default/20 disabled:opacity-50 cursor-pointer"
+                      className="p-2 inline-flex min-w-[36px] min-h-[36px] items-center justify-center text-charcoal/50 hover:text-gold-default transition-colors bg-white hover:bg-pink-light rounded-lg shadow-sm border border-transparent hover:border-pink-default/20 disabled:opacity-50 cursor-pointer mr-1.5"
                       title="Editar Produto"
                     >
                       <Edit size={16} />
+                    </button>
+                    <button 
+                      onClick={() => setProductToDelete(p)} 
+                      disabled={isUpdating === p.id}
+                      aria-label="Excluir Produto"
+                      className="p-2 inline-flex min-w-[36px] min-h-[36px] items-center justify-center text-charcoal/50 hover:text-red-600 transition-colors bg-white hover:bg-red-50 rounded-lg shadow-sm border border-transparent hover:border-red-200 disabled:opacity-50 cursor-pointer"
+                      title="Excluir Produto"
+                    >
+                      <Trash2 size={16} />
                     </button>
                   </td>
                 </tr>
@@ -176,6 +220,64 @@ export default function ProductList({ onEdit }: { onEdit: (p: AdminProduct) => v
           </table>
         </div>
       </div>
+
+      {/* Confirmation Modal for Product Deletion */}
+      {productToDelete && (
+        <div 
+          className="fixed inset-0 z-[9999] bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-150"
+          onClick={() => !isDeleting && setProductToDelete(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div 
+            className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-pink-default/20 text-left space-y-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-3 text-red-600">
+              <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center shrink-0">
+                <AlertTriangle size={20} />
+              </div>
+              <h4 className="font-serif text-lg font-bold text-charcoal">Confirmar Exclusão</h4>
+            </div>
+
+            <div className="text-sm text-charcoal/80 space-y-2">
+              <p>
+                Tem certeza de que deseja excluir o produto{" "}
+                <span className="font-bold text-charcoal">&ldquo;{productToDelete.name}&rdquo;</span>?
+              </p>
+              <p className="text-xs text-charcoal/60 bg-pink-light/30 p-3 rounded-xl border border-pink-default/15 leading-relaxed">
+                Para preservar o histórico de orçamentos e pedidos vinculados, caso existam registros associados, o produto será desativado/arquivado com segurança, deixando de ser exibido na loja.
+              </p>
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setProductToDelete(null)}
+                disabled={isDeleting}
+                className="px-4 py-2.5 rounded-xl border border-pink-default/30 text-charcoal/70 hover:text-charcoal hover:bg-offwhite text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDelete(productToDelete)}
+                disabled={isDeleting}
+                className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-sm cursor-pointer flex items-center gap-2 disabled:opacity-50"
+              >
+                {isDeleting ? (
+                  <>
+                    <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Processando...</span>
+                  </>
+                ) : (
+                  <span>Confirmar Exclusão</span>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Product Detail Modal para visualização pelo Admin/Owner */}
       {selectedProduct && (

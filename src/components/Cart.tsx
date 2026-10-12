@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, ShoppingBag, Heart, Trash2, ArrowRight, MessageCircle, ShieldCheck, Sparkles, Truck, Loader2 } from "lucide-react";
+import { X, ShoppingBag, Heart, Trash2, ArrowRight, ArrowLeft, MessageCircle, ShieldCheck, Sparkles, Truck, Loader2 } from "lucide-react";
 import { CartItem, Product } from "../types";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabase";
@@ -168,12 +168,54 @@ export default function Cart({
             className="w-screen max-w-md bg-white border-l border-pink-default/15 flex flex-col shadow-2xl relative"
           >
             
-            {/* Header: Tabs for Cart and Wishlist */}
-            <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-pink-default/15 flex justify-between items-center bg-offwhite">
+            {/* Mobile Header: Natural e-commerce back navigation with ← and title */}
+            <div className="sm:hidden px-4 py-3.5 border-b border-pink-default/15 flex items-center justify-between bg-offwhite">
+              <button
+                onClick={onClose}
+                className="flex items-center gap-2.5 text-charcoal hover:text-gold-dark transition-colors focus:outline-none cursor-pointer group -ml-1 py-1 px-1"
+                aria-label={`Voltar da tela de ${activeTab === "cart" ? "Carrinho" : "Favoritos"}`}
+              >
+                <div className="w-8 h-8 rounded-full bg-white border border-pink-default/20 flex items-center justify-center text-charcoal group-hover:border-gold-default/40 shadow-2xs transition-colors">
+                  <ArrowLeft size={18} />
+                </div>
+                <span className="font-serif font-bold text-lg text-charcoal leading-none">
+                  {activeTab === "cart" ? "Carrinho" : "Favoritos"}
+                </span>
+              </button>
+
+              {/* Discreet mobile tab switcher */}
+              <div className="flex items-center bg-white border border-pink-default/20 rounded-full p-0.5 shadow-2xs">
+                <button
+                  onClick={() => setActiveTab("cart")}
+                  className={`px-2.5 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                    activeTab === "cart"
+                      ? "bg-gold-dark text-white shadow-2xs"
+                      : "text-charcoal/60 hover:text-charcoal"
+                  }`}
+                  aria-label="Ver Carrinho"
+                >
+                  Sacola ({cart.length})
+                </button>
+                <button
+                  onClick={() => setActiveTab("wishlist")}
+                  className={`px-2.5 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                    activeTab === "wishlist"
+                      ? "bg-gold-dark text-white shadow-2xs"
+                      : "text-charcoal/60 hover:text-charcoal"
+                  }`}
+                  aria-label="Ver Favoritos"
+                >
+                  Favoritos ({wishlist.length})
+                </button>
+              </div>
+            </div>
+
+            {/* Desktop Header: Tabs for Cart and Wishlist with Close 'X' */}
+            <div className="hidden sm:flex px-6 py-5 border-b border-pink-default/15 justify-between items-center bg-offwhite">
               <div className="flex gap-4">
                 <button
                   onClick={() => setActiveTab("cart")}
-                  className={`text-xs sm:text-sm tracking-widest uppercase font-bold relative pb-1 focus:outline-none cursor-pointer ${
+                  className={`text-sm tracking-widest uppercase font-bold relative pb-1 focus:outline-none cursor-pointer ${
                     activeTab === "cart" ? "text-gold-dark font-extrabold" : "text-charcoal/40"
                   }`}
                 >
@@ -184,7 +226,7 @@ export default function Cart({
                 </button>
                 <button
                   onClick={() => setActiveTab("wishlist")}
-                  className={`text-xs sm:text-sm tracking-widest uppercase font-bold relative pb-1 focus:outline-none cursor-pointer ${
+                  className={`text-sm tracking-widest uppercase font-bold relative pb-1 focus:outline-none cursor-pointer ${
                     activeTab === "wishlist" ? "text-gold-dark font-extrabold" : "text-charcoal/40"
                   }`}
                 >
@@ -227,7 +269,7 @@ export default function Cart({
             */}
 
             {/* Panel Body */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-4">
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 modal-scrollbar">
               
               {activeTab === "cart" ? (
                 // CART LISTING

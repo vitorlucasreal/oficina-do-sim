@@ -130,7 +130,10 @@ export default function ProductModal({
 
             {/* Gallery thumbnails */}
             {product.galleryImages && product.galleryImages.length > 1 && (
-              <div className="flex gap-2.5 overflow-x-auto pb-1.5 scrollbar-none">
+              <div 
+                className="flex gap-2.5 overflow-x-auto pb-1.5 no-scrollbar scrollbar-none"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
                 {product.galleryImages.map((img: string, i: number) => (
                   <button
                     key={i}

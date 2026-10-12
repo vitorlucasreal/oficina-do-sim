@@ -146,7 +146,7 @@ export default function AIConsultant({ isOpen, onClose, quizResults }: AIConsult
           {/* Messages Body */}
           <div
             ref={scrollRef}
-            className="flex-1 p-4 sm:p-6 overflow-y-auto space-y-4 bg-offwhite/50 text-left scrollbar-thin"
+            className="flex-1 p-4 sm:p-6 overflow-y-auto space-y-4 bg-offwhite/50 text-left modal-scrollbar"
           >
             {messages.map((m, idx) => (
               <div

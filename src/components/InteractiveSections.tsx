@@ -453,36 +453,18 @@ export const OFFICIAL_SOCIAL_PUBLICATIONS: SocialPublication[] = [
     platform: "instagram",
     type: "page",
     url: "https://www.instagram.com/oficinadosim_/",
-    title: "Lançamentos e Noivas no Instagram",
+    title: "Oficina do Sim no Instagram",
     badge: "Instagram Oficial",
     caption: "Inspirações diárias de lembranças, convites e terços no perfil @oficinadosim_."
   },
   {
-    id: "ig-bastidores-atelie",
-    platform: "instagram",
-    type: "page",
-    url: "https://www.instagram.com/oficinadosim_/",
-    title: "Bastidores Oficina do Sim",
-    badge: "Instagram Oficial",
-    caption: "Acompanhe a produção artesanal de Victória e Daniele no Instagram."
-  },
-  {
-    id: "fb-terco-noiva",
+    id: "fb-oficina-do-sim",
     platform: "facebook",
     type: "post",
     url: "https://www.facebook.com/61578311908977/posts/122202794306943730/",
-    title: "Terço da Noiva em Pérolas",
-    badge: "Fé & Proteção",
+    title: "Oficina do Sim no Facebook",
+    badge: "Facebook Oficial",
     caption: "Um terço para carregar a fé junto ao coração no dia do seu sim. Mais do que um acessório, uma bênção."
-  },
-  {
-    id: "fb-porta-alianca-3d",
-    platform: "facebook",
-    type: "post",
-    url: "https://www.facebook.com/61578311908977/posts/122198905964943730/",
-    title: "Porta-Alianças 3D Alta Qualidade",
-    badge: "Lançamento 3D",
-    caption: "Portas-alianças em 3D de alta qualidade para eternizar ainda mais o seu grande dia."
   }
 ];
 
@@ -498,81 +480,24 @@ function getMetaEmbedUrl(pub: SocialPublication): string {
 }
 
 export function InstagramFeed() {
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-
-  const checkScroll = () => {
-    if (!carouselRef.current) return;
-    const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
-    setCanScrollLeft(scrollLeft > 10);
-    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
-  };
-
-  useEffect(() => {
-    checkScroll();
-    const handleResize = () => checkScroll();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const handleScroll = (direction: "left" | "right") => {
-    if (!carouselRef.current) return;
-    const scrollAmount = carouselRef.current.clientWidth * 0.8;
-    carouselRef.current.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth"
-    });
-    setTimeout(checkScroll, 350);
-  };
-
   return (
     <section className="py-12 sm:py-24 bg-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
+        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
           <div className="flex justify-center items-center gap-3 mb-3 text-gold-default">
             <Instagram size={22} />
             <Facebook size={22} />
           </div>
           <h2 className="font-serif text-2xl sm:text-4xl text-charcoal font-semibold tracking-wide">
-            Siga nosso perfil no Instagram e nossa página no Facebook
+            Siga nosso perfil nas redes sociais
           </h2>
           <p className="text-charcoal/75 text-sm sm:text-base mt-3">
             Acompanhe os bastidores da produção com Victória e Daniele e inspire-se diariamente.
           </p>
         </div>
 
-        {/* Carousel controls bar for mobile/tablet or when scrolling is active */}
-        <div className="flex items-center justify-between mb-4 lg:hidden">
-          <span className="text-xs font-medium text-charcoal/60">
-            Deslize para ver todas as publicações
-          </span>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => handleScroll("left")}
-              disabled={!canScrollLeft}
-              className="w-9 h-9 sm:w-8 sm:h-8 min-w-[36px] min-h-[36px] rounded-full border border-pink-default/30 flex items-center justify-center text-charcoal disabled:opacity-30 disabled:cursor-not-allowed hover:bg-pink-default/10 transition-colors cursor-pointer"
-              aria-label="Publicação anterior"
-            >
-              <ChevronLeft size={16} />
-            </button>
-            <button
-              onClick={() => handleScroll("right")}
-              disabled={!canScrollRight}
-              className="w-9 h-9 sm:w-8 sm:h-8 min-w-[36px] min-h-[36px] rounded-full border border-pink-default/30 flex items-center justify-center text-charcoal disabled:opacity-30 disabled:cursor-not-allowed hover:bg-pink-default/10 transition-colors cursor-pointer"
-              aria-label="Próxima publicação"
-            >
-              <ChevronRight size={16} />
-            </button>
-          </div>
-        </div>
-
-        {/* Responsive Feed / Carousel: 4 columns on desktop, 2 on tablet, 1 on mobile */}
-        <div
-          ref={carouselRef}
-          onScroll={checkScroll}
-          className="flex gap-5 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 pt-1 px-1 -mx-2 sm:mx-0"
-        >
+        {/* Balanced 2-Cards Layout: 2 columns on desktop/tablet, stacked responsively on mobile */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-3xl lg:max-w-4xl mx-auto">
           {OFFICIAL_SOCIAL_PUBLICATIONS.map((pub) => {
             const embedSrc = getMetaEmbedUrl(pub);
             const isFb = pub.platform === "facebook";
@@ -580,7 +505,7 @@ export function InstagramFeed() {
             return (
               <div
                 key={pub.id}
-                className="w-[85vw] max-w-[340px] sm:w-[calc(50%-10px)] sm:max-w-none lg:w-[calc(25%-15px)] shrink-0 snap-center flex flex-col bg-white rounded-2xl border border-pink-default/20 shadow-xs hover:shadow-md transition-all duration-300 overflow-hidden h-[540px]"
+                className="w-full max-w-md mx-auto flex flex-col bg-white rounded-2xl border border-pink-default/20 shadow-xs hover:shadow-md transition-all duration-300 overflow-hidden h-[480px] sm:h-[520px]"
               >
                 {/* Card Header */}
                 <div className="px-4 py-3 bg-offwhite/90 border-b border-pink-default/15 flex items-center justify-between gap-2 shrink-0">

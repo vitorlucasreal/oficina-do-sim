@@ -44,9 +44,17 @@ h1, h2, h3, h4, h5, h6, .font-serif-title {
   background-clip: padding-box;
 }
 
-/* Custom scrollbar to match the romantic vibe */
+/* Custom vertical scrollbar to match the romantic vibe */
 ::-webkit-scrollbar {
   width: 6px;
+  height: 0px;
+}
+::-webkit-scrollbar:horizontal,
+*::-webkit-scrollbar:horizontal {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
 }
 ::-webkit-scrollbar-track {
   background: var(--color-offwhite);
@@ -55,8 +63,27 @@ h1, h2, h3, h4, h5, h6, .font-serif-title {
   background: var(--color-pink-default);
   border-radius: 10px;
 }
+::-webkit-scrollbar-thumb:horizontal,
+*::-webkit-scrollbar-thumb:horizontal {
+  display: none !important;
+  background: transparent !important;
+}
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-sage-default);
+}
+
+/* Hide scrollbar for carousels, lists and swipeable strips across all browsers */
+.no-scrollbar,
+.scrollbar-none {
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari and Opera */
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
 }
 
 /* Modal specific discreet scrollbar */

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Sparkles,
@@ -8,6 +8,8 @@ import {
   ShieldCheck,
   Star,
   ChevronUp,
+  ChevronLeft,
+  ChevronRight,
   Award,
   Truck,
   BookOpen,
@@ -29,6 +31,7 @@ import ProductCarousel from "./components/ProductCarousel";
 import AuthModal from "./components/AuthModal";
 import AdminPanel from "./components/admin/AdminPanel";
 import MyAccount from "./pages/MyAccount";
+import MobileBottomNav from "./components/MobileBottomNav";
 
 // Hooks
 import { useAuth } from "./hooks/useAuth";
@@ -58,9 +61,20 @@ export default function App() {
   const { products, loading: productsLoading, error: productsError } = useProducts();
   const { activeCategories, featuredHomeCategories } = useCategories();
   const [currentView, setView] = useState<string>("home");
+  const [selectedShopCategory, setSelectedShopCategory] = useState<string>("all");
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [authView, setAuthView] = useState<"login" | "signup" | "recovery" | "update_password">("login");
   const { cart, addToCart, removeFromCart, updateQuantity, clearCart } = useCartSync(user);
+  const collectionsScrollRef = useRef<HTMLDivElement>(null);
+
+  const handleCollectionsScroll = (direction: "left" | "right") => {
+    if (!collectionsScrollRef.current) return;
+    const scrollAmount = collectionsScrollRef.current.clientWidth >= 640 ? 440 : 200;
+    collectionsScrollRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
 
   useEffect(() => {
     // Initialize GA4
@@ -234,7 +248,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-offwhite text-charcoal font-sans selection:bg-gold-light selection:text-gold-dark overflow-x-hidden">
+    <div className="min-h-screen flex flex-col justify-between bg-offwhite text-charcoal font-sans selection:bg-gold-light selection:text-gold-dark overflow-x-hidden pb-16 lg:pb-0">
       
       {/* Toast Notification Box */}
       <AnimatePresence>
@@ -368,11 +382,11 @@ export default function App() {
                 />
               )}
 
-              {/* Large Categories cards grid */}
-              <section id="categories-grid" className="py-12 sm:py-20 lg:py-24 bg-offwhite">
+              {/* Compact Categories / Collections Carousel */}
+              <section id="categories-grid" className="py-10 sm:py-16 bg-offwhite overflow-hidden">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                   
-                  <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+                  <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
                     <span className="text-[11px] sm:text-xs uppercase tracking-widest text-gold-dark font-bold bg-gold-light/60 px-3.5 py-1 rounded-full">
                       Mimos Exclusivos
                     </span>
@@ -385,44 +399,90 @@ export default function App() {
                   </div>
 
                   {featuredHomeCategories.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-                      {featuredHomeCategories.slice(0, 6).map((cat, idx) => (
-                        <div
-                          key={cat.id || idx}
-                          onClick={() => {
-                            setView("shop");
-                            window.scrollTo({ top: 300, behavior: "smooth" });
-                          }}
-                          className="bg-white rounded-2xl sm:rounded-3xl border border-pink-default/20 overflow-hidden group cursor-pointer hover:border-gold-default/40 transition-all duration-300 relative shadow-xs"
-                        >
-                          <div className="aspect-video overflow-hidden relative">
-                            <img
-                              src={cat.image_url || cat.image}
-                              alt={cat.name}
-                              referrerPolicy="no-referrer"
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 via-transparent to-transparent opacity-40" />
+                    <div className="relative group/collections">
+                      {/* Setas de navegação desktop */}
+                      <button
+                        type="button"
+                        onClick={() => handleCollectionsScroll("left")}
+                        className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 lg:-translate-x-5 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/95 hover:bg-white text-charcoal/80 hover:text-gold-dark border border-pink-default/30 hover:border-gold-default/50 shadow-sm hover:shadow-md items-center justify-center transition-all opacity-70 group-hover/collections:opacity-100 hover:scale-105 cursor-pointer focus:outline-none"
+                        aria-label="Coleções anteriores"
+                      >
+                        <ChevronLeft size={18} />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleCollectionsScroll("right")}
+                        className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 lg:translate-x-5 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/95 hover:bg-white text-charcoal/80 hover:text-gold-dark border border-pink-default/30 hover:border-gold-default/50 shadow-sm hover:shadow-md items-center justify-center transition-all opacity-70 group-hover/collections:opacity-100 hover:scale-105 cursor-pointer focus:outline-none"
+                        aria-label="Próximas coleções"
+                      >
+                        <ChevronRight size={18} />
+                      </button>
+
+                      {/* Carrossel Horizontal Compacto */}
+                      <div
+                        ref={collectionsScrollRef}
+                        className="flex gap-3 sm:gap-5 overflow-x-auto pb-4 pt-1 px-4 sm:px-2 -mx-4 sm:mx-0 snap-x snap-mandatory no-scrollbar scrollbar-none justify-start md:justify-center"
+                        style={{
+                          scrollbarWidth: "none",
+                          msOverflowStyle: "none",
+                          WebkitOverflowScrolling: "touch",
+                        }}
+                      >
+                        {featuredHomeCategories.map((cat, idx) => (
+                          <div
+                            key={cat.id || idx}
+                            onClick={() => {
+                              setSelectedShopCategory(cat.id);
+                              setView("shop");
+                              window.scrollTo({ top: 300, behavior: "smooth" });
+                            }}
+                            className="shrink-0 w-[170px] sm:w-[195px] md:w-[210px] lg:w-[225px] bg-white rounded-2xl border border-pink-default/20 overflow-hidden group cursor-pointer hover:border-gold-default/40 transition-all duration-300 shadow-xs hover:shadow-md flex flex-col justify-between snap-start select-none"
+                          >
+                            {/* Imagem proporcional quadrada idêntica aos produtos */}
+                            <div className="aspect-square overflow-hidden bg-pink-light/30 relative shrink-0">
+                              <img
+                                src={cat.image_url || cat.image}
+                                alt={cat.name}
+                                loading="lazy"
+                                referrerPolicy="no-referrer"
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                              />
+                              <div className="absolute inset-0 bg-charcoal/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                            </div>
+
+                            {/* Conteúdo com footprint visual idêntico aos produtos */}
+                            <div className="p-3 sm:p-3.5 text-left flex flex-col flex-1 justify-between gap-1.5 bg-gradient-to-b from-white to-offwhite/50">
+                              <div>
+                                <h4 className="font-sans text-[13px] sm:text-[14px] font-semibold text-charcoal group-hover:text-gold-dark transition-colors line-clamp-1 leading-snug flex items-center justify-between gap-1">
+                                  <span className="truncate">{cat.name}</span>
+                                  <ArrowRight size={13} className="text-gold-dark group-hover:text-gold-default group-hover:translate-x-0.5 transition-all shrink-0" />
+                                </h4>
+                                {cat.description && (
+                                  <p className="text-[11px] sm:text-[11.5px] text-charcoal/65 mt-0.5 leading-tight line-clamp-2">
+                                    {cat.description}
+                                  </p>
+                                )}
+                              </div>
+
+                              <div className="pt-1.5 border-t border-pink-default/15 flex items-center justify-between mt-auto">
+                                <span className="text-[9.5px] sm:text-[10px] font-semibold uppercase tracking-wider text-gold-dark group-hover:text-gold-default border-b border-transparent group-hover:border-gold-default pb-0.5 transition-all font-sans whitespace-nowrap">
+                                  Ver Coleção
+                                </span>
+                              </div>
+                            </div>
                           </div>
-                          <div className="p-4 sm:p-6 text-left">
-                            <h4 className="font-serif text-base sm:text-lg font-bold text-charcoal group-hover:text-gold-dark flex items-center justify-between">
-                              <span className="truncate pr-2">{cat.name}</span>
-                              <ArrowRight size={16} className="text-gold-default group-hover:translate-x-1 transition-transform shrink-0" />
-                            </h4>
-                            {cat.description && (
-                              <p className="text-xs sm:text-sm text-charcoal/75 mt-1.5 leading-relaxed line-clamp-2">
-                                {cat.description}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
                   ) : null}
 
-                  <div className="text-center mt-10 sm:mt-12">
+                  <div className="text-center mt-8 sm:mt-10">
                     <button
-                      onClick={() => setView("shop")}
+                      onClick={() => {
+                        setSelectedShopCategory("all");
+                        setView("shop");
+                      }}
                       className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-gold-dark hover:text-gold-default transition-colors focus:outline-none cursor-pointer py-2 px-3"
                     >
                       <span>
@@ -459,20 +519,19 @@ export default function App() {
                     </button>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                  <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
                     {productsLoading ? (
                       Array(4).fill(0).map((_, idx) => (
-                        <div key={idx} className="bg-white rounded-3xl border border-pink-default/20 overflow-hidden shadow-xs animate-pulse flex flex-col h-[380px]">
+                        <div key={idx} className="bg-white rounded-2xl sm:rounded-3xl border border-pink-default/20 overflow-hidden shadow-xs animate-pulse flex flex-col h-[320px] sm:h-[380px]">
                           <div className="aspect-square bg-pink-light/40 w-full" />
-                          <div className="p-5 flex-1 flex flex-col justify-between">
-                            <div className="space-y-3">
+                          <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between">
+                            <div className="space-y-2">
                               <div className="h-2 w-1/3 bg-gray-200 rounded" />
-                              <div className="h-4 w-3/4 bg-gray-200 rounded" />
-                              <div className="h-2 w-1/4 bg-gray-200 rounded" />
+                              <div className="h-3 sm:h-4 w-3/4 bg-gray-200 rounded" />
                             </div>
-                            <div className="pt-4 border-t border-pink-default/10 mt-4 flex justify-between">
-                              <div className="h-4 w-1/3 bg-gray-200 rounded" />
-                              <div className="h-8 w-1/3 bg-gray-200 rounded-xl" />
+                            <div className="pt-3 border-t border-pink-default/10 mt-3 flex justify-between">
+                              <div className="h-3 w-1/3 bg-gray-200 rounded" />
+                              <div className="h-6 sm:h-8 w-1/3 bg-gray-200 rounded-lg" />
                             </div>
                           </div>
                         </div>
@@ -487,14 +546,15 @@ export default function App() {
                         return (
                           <div
                             key={p.id}
-                            className="bg-white rounded-3xl border border-pink-default/20 overflow-hidden relative group hover:border-gold-default/40 transition-all duration-300 shadow-xs flex flex-col justify-between"
+                            className="bg-white rounded-2xl sm:rounded-3xl border border-pink-default/20 overflow-hidden relative group hover:border-gold-default/40 transition-all duration-300 shadow-xs flex flex-col justify-between"
                           >
                             {/* Heart toggle */}
                             <button
                               onClick={() => handleToggleWishlist(p)}
-                              className="absolute top-4 right-4 z-10 p-2 bg-white/90 hover:bg-white rounded-full text-charcoal/75 hover:text-red-500 transition-colors shadow-sm focus:outline-none"
+                              className="absolute top-2.5 right-2.5 sm:top-4 sm:right-4 z-10 p-1.5 sm:p-2 bg-white/90 hover:bg-white rounded-full text-charcoal/75 hover:text-red-500 transition-colors shadow-sm focus:outline-none"
+                              aria-label="Adicionar aos favoritos"
                             >
-                              <Heart size={14} className={isWish ? "fill-red-500 text-red-500" : ""} />
+                              <Heart size={13} className={isWish ? "fill-red-500 text-red-500" : ""} />
                             </button>
 
                             <div className="aspect-square overflow-hidden bg-pink-light relative">
@@ -508,32 +568,32 @@ export default function App() {
                               <div className="absolute inset-0 bg-charcoal/25 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                                 <button
                                   onClick={() => setSelectedProduct(p)}
-                                  className="px-5 py-2.5 bg-white text-charcoal font-bold text-xs uppercase tracking-widest rounded-xl shadow-lg hover:bg-gold-default hover:text-white transition-colors"
+                                  className="px-3 sm:px-5 py-2 sm:py-2.5 bg-white text-charcoal font-bold text-[10px] sm:text-xs uppercase tracking-wider rounded-xl shadow-lg hover:bg-gold-default hover:text-white transition-colors cursor-pointer"
                                 >
                                   Ver Detalhes
                                 </button>
                               </div>
                             </div>
 
-                            <div className="p-5 text-left flex-1 flex flex-col justify-between">
-                              <div className="space-y-2">
-                                <span className="text-[9.5px] uppercase tracking-widest text-gold-dark font-semibold">
+                            <div className="p-3 sm:p-5 text-left flex-1 flex flex-col justify-between">
+                              <div className="space-y-1 sm:space-y-2">
+                                <span className="text-[8.5px] sm:text-[9.5px] uppercase tracking-wider text-gold-dark font-semibold block truncate">
                                   {p.category.replace("-", " ")}
                                 </span>
                                 <h4
                                   onClick={() => setSelectedProduct(p)}
-                                  className="font-serif text-sm sm:text-md font-bold text-charcoal hover:text-gold-default cursor-pointer truncate"
+                                  className="font-serif text-xs sm:text-sm md:text-base font-bold text-charcoal hover:text-gold-default cursor-pointer truncate"
                                 >
                                   {p.name}
                                 </h4>
                                 <div className="flex items-center gap-1 text-gold-default">
                                   <Star size={11} className="fill-current" />
-                                  <span className="text-[11px] font-semibold text-charcoal/75">{p.rating.toFixed(1)}</span>
+                                  <span className="text-[10px] sm:text-[11px] font-semibold text-charcoal/75">{p.rating.toFixed(1)}</span>
                                 </div>
                               </div>
 
-                              <div className="pt-4 border-t border-pink-default/10 mt-4 flex items-center justify-between">
-                                <span className="font-serif text-md sm:text-lg font-bold text-gold-dark">
+                              <div className="pt-2.5 sm:pt-4 border-t border-pink-default/10 mt-2.5 sm:mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                <span className="font-serif text-sm sm:text-base md:text-lg font-bold text-gold-dark">
                                   R$ {p.price.toFixed(2)}
                                 </span>
                                 <button
@@ -544,7 +604,7 @@ export default function App() {
                                       handleAddToCart(p);
                                     }
                                   }}
-                                  className="px-3.5 py-2 bg-charcoal hover:bg-gold-default text-white font-bold text-[10.5px] uppercase tracking-widest rounded-xl transition-colors cursor-pointer"
+                                  className="w-full sm:w-auto px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-charcoal hover:bg-gold-default text-white font-bold text-[9.5px] sm:text-[10.5px] uppercase tracking-wider rounded-lg sm:rounded-xl transition-colors cursor-pointer flex items-center justify-center"
                                 >
                                   Comprar
                                 </button>
@@ -631,6 +691,8 @@ export default function App() {
                 wishlist={wishlist}
                 toggleWishlist={handleToggleWishlist}
                 initialSearchQuery={searchQuery}
+                initialCategory={selectedShopCategory}
+                onCategoryChange={setSelectedShopCategory}
               />
             </motion.div>
           )}
@@ -692,7 +754,7 @@ export default function App() {
       </main>
 
       {/* Floating Interactive Widget Triggers */}
-      <div className="fixed bottom-4 right-3 sm:bottom-6 sm:right-6 z-40 flex flex-col gap-2.5 sm:gap-3 items-end">
+      <div className="fixed bottom-20 right-3.5 sm:bottom-6 sm:right-6 z-30 flex flex-col gap-2.5 sm:gap-3 items-end">
         
         {/* Back to top floating indicator */}
         {showScrollTop && (
@@ -706,10 +768,10 @@ export default function App() {
           </button>
         )}
         
-        {/* Floating Cart Button */}
+        {/* Floating Cart Button (Desktop only, mobile has bottom bar) */}
         <button
           onClick={() => openCartTab("cart")}
-          className="p-3 sm:p-4 bg-charcoal hover:bg-gold-dark text-white rounded-full shadow-xl sm:shadow-2xl transition-all cursor-pointer flex items-center justify-center border-2 sm:border-4 border-white relative focus:outline-none min-w-[46px] min-h-[46px]"
+          className="hidden sm:flex p-3 sm:p-4 bg-charcoal hover:bg-gold-dark text-white rounded-full shadow-xl sm:shadow-2xl transition-all cursor-pointer items-center justify-center border-2 sm:border-4 border-white relative focus:outline-none min-w-[46px] min-h-[46px]"
           title="Sacola de Compras"
           aria-label="Sacola de Compras"
         >
@@ -721,7 +783,7 @@ export default function App() {
           )}
         </button>
 
-        {/* WhatsApp direct chat bubble */}
+        {/* WhatsApp direct chat bubble (positioned cleanly above bottom nav on mobile) */}
         <a
           href="https://wa.me/5514997383526?text=Ol%C3%A1!%20Gostaria%20de%20conhecer%20mais%20sobre%20a%20Oficina%20do%20Sim."
           target="_blank"
@@ -779,19 +841,28 @@ export default function App() {
         onClearCart={clearCart}
       />
 
-      {/* AI Assistant Chat popup panel - TEMPORARILY DISABLED
-      <AIConsultant
-        isOpen={isAIOpen}
-        onClose={() => setIsAIOpen(false)}
-        quizResults={quizResults}
-      />
-      */}
-
       {/* Auth Modal */}
       <AuthModal
         isOpen={isAuthOpen}
         onClose={() => setIsAuthOpen(false)}
         defaultView={authView}
+      />
+
+      {/* Mobile Fixed Bottom Navigation Bar */}
+      <MobileBottomNav
+        currentView={currentView}
+        setView={setView}
+        cartCount={cart.reduce((sum, i) => sum + i.quantity, 0)}
+        wishlistCount={wishlist.length}
+        openCart={() => openCartTab("cart")}
+        openWishlist={() => openCartTab("wishlist")}
+        user={user}
+        profile={profile}
+        onOpenAuth={() => {
+          setAuthView("login");
+          setIsAuthOpen(true);
+        }}
+        onLogout={signOut}
       />
 
     </div>

@@ -298,7 +298,10 @@ export default function UserList() {
 
         {/* Tabela */}
         <div className="bg-white rounded-2xl border border-pink-default/20 shadow-sm overflow-hidden">
-          <div className="overflow-x-auto">
+          <div 
+            className="overflow-x-auto no-scrollbar"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
             <table className="w-full text-sm text-left">
               <thead className="bg-offwhite text-charcoal/70 uppercase text-[10px] tracking-wider font-bold">
                 <tr>

@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Search, SlidersHorizontal, Heart, Sparkles, Star, ShoppingBag, Eye, Check } from "lucide-react";
 import { CATEGORIES } from "../data";
 import { Product } from "../types";
@@ -12,6 +12,8 @@ interface ProductsSectionProps {
   wishlist: Product[];
   toggleWishlist: (product: Product) => void;
   initialSearchQuery?: string;
+  initialCategory?: string;
+  onCategoryChange?: (categoryId: string) => void;
 }
 
 export default function ProductsSection({
@@ -19,9 +21,11 @@ export default function ProductsSection({
   onAddToCart,
   wishlist,
   toggleWishlist,
-  initialSearchQuery = ""
+  initialSearchQuery = "",
+  initialCategory = "all",
+  onCategoryChange,
 }: ProductsSectionProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory || "all");
   const [search, setSearch] = useState(initialSearchQuery);
   const [onlyCustomizable, setOnlyCustomizable] = useState(false);
   const [maxPrice, setMaxPrice] = useState<number>(200);
@@ -29,6 +33,15 @@ export default function ProductsSection({
   const [showFilters, setShowFilters] = useState(false);
   const { products, loading, error } = useProducts();
   const { activeCategories } = useCategories();
+
+  useEffect(() => {
+    setSelectedCategory(initialCategory || "all");
+  }, [initialCategory]);
+
+  const handleSelectCategory = (catId: string) => {
+    setSelectedCategory(catId);
+    onCategoryChange?.(catId);
+  };
 
   const categoriesWithAll = useMemo(() => {
     const list = activeCategories.length > 0 ? activeCategories : CATEGORIES;
@@ -46,13 +59,15 @@ export default function ProductsSection({
       result = result.filter((p) => {
         if (p.categoryId === selectedCategory) return true;
         const catSlug = generateSlug(p.category);
-        const selectedCat = categoriesWithAll.find((c) => c.id === selectedCategory);
+        const selectedCat = categoriesWithAll.find(
+          (c) => c.id === selectedCategory || c.slug === selectedCategory
+        );
         if (selectedCat) {
           return (
+            p.categoryId === selectedCat.id ||
             p.category === selectedCat.slug ||
             p.category.toLowerCase() === selectedCat.name.toLowerCase() ||
-            catSlug === selectedCat.slug ||
-            p.categoryId === selectedCat.id
+            catSlug === selectedCat.slug
           );
         }
         return p.category === selectedCategory || catSlug === selectedCategory;
@@ -111,17 +126,22 @@ export default function ProductsSection({
             Nossos Mimos e Detalhes
           </h2>
           
-          <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-thin">
+          <div 
+            className="flex gap-2 sm:gap-3 overflow-x-auto pb-2 no-scrollbar scrollbar-none"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
             {categoriesWithAll.map((cat) => {
-              const isActive = selectedCategory === cat.id;
+              const isActive =
+                selectedCategory === cat.id ||
+                (cat.slug !== "all" && selectedCategory === cat.slug);
               return (
                 <button
                   key={cat.id}
                   onClick={() => {
-                    setSelectedCategory(cat.id);
+                    handleSelectCategory(cat.id);
                     window.scrollTo({ top: 300, behavior: "smooth" });
                   }}
-                  className={`px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase shrink-0 border transition-all duration-200 focus:outline-none cursor-pointer whitespace-nowrap ${
+                  className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-semibold tracking-wider uppercase shrink-0 border transition-all duration-200 focus:outline-none cursor-pointer whitespace-nowrap ${
                     isActive
                       ? "bg-gold-default text-white border-gold-default shadow-xs"
                       : "bg-offwhite text-charcoal/80 border-pink-default/20 hover:border-pink-default"
@@ -226,7 +246,7 @@ export default function ProductsSection({
                   setOnlyCustomizable(false);
                   setMaxPrice(200);
                   setSearch("");
-                  setSelectedCategory("all");
+                  handleSelectCategory("all");
                 }}
                 className="px-5 py-2.5 border border-pink-default/20 hover:border-charcoal hover:bg-white text-charcoal/80 rounded-xl transition-all font-semibold"
               >
@@ -250,20 +270,19 @@ export default function ProductsSection({
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
             {loading ? (
               Array(8).fill(0).map((_, idx) => (
-                <div key={idx} className="bg-white rounded-3xl border border-pink-default/20 overflow-hidden shadow-xs animate-pulse flex flex-col h-[400px]">
+                <div key={idx} className="bg-white rounded-2xl sm:rounded-3xl border border-pink-default/20 overflow-hidden shadow-xs animate-pulse flex flex-col h-[320px] sm:h-[400px]">
                   <div className="aspect-square bg-pink-light/40 w-full" />
-                  <div className="p-5 flex-1 flex flex-col justify-between">
-                    <div className="space-y-3">
+                  <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between">
+                    <div className="space-y-2">
                       <div className="h-2 w-1/3 bg-gray-200 rounded" />
-                      <div className="h-4 w-3/4 bg-gray-200 rounded" />
-                      <div className="h-2 w-1/4 bg-gray-200 rounded" />
+                      <div className="h-3 sm:h-4 w-3/4 bg-gray-200 rounded" />
                     </div>
-                    <div className="pt-4 border-t border-pink-default/10 mt-4 flex justify-between">
-                      <div className="h-4 w-1/3 bg-gray-200 rounded" />
-                      <div className="h-8 w-1/3 bg-gray-200 rounded-xl" />
+                    <div className="pt-3 border-t border-pink-default/10 mt-3 flex justify-between">
+                      <div className="h-3 w-1/3 bg-gray-200 rounded" />
+                      <div className="h-6 sm:h-8 w-1/3 bg-gray-200 rounded-lg" />
                     </div>
                   </div>
                 </div>
@@ -279,20 +298,21 @@ export default function ProductsSection({
               return (
                 <div
                   key={p.id}
-                  className="bg-white rounded-3xl border border-pink-default/20 overflow-hidden relative group hover:border-gold-default/45 transition-all duration-300 shadow-xs flex flex-col justify-between"
+                  className="bg-white rounded-2xl sm:rounded-3xl border border-pink-default/20 overflow-hidden relative group hover:border-gold-default/45 transition-all duration-300 shadow-xs flex flex-col justify-between"
                 >
                   {/* Heart Wishlist Trigger */}
                   <button
                     onClick={() => toggleWishlist(p)}
-                    className="absolute top-4 right-4 z-10 p-2 bg-white/90 hover:bg-white rounded-full text-charcoal/75 hover:text-red-500 transition-colors shadow-sm focus:outline-none"
+                    className="absolute top-2.5 right-2.5 sm:top-4 sm:right-4 z-10 p-1.5 sm:p-2 bg-white/90 hover:bg-white rounded-full text-charcoal/75 hover:text-red-500 transition-colors shadow-sm focus:outline-none"
+                    aria-label="Adicionar aos favoritos"
                   >
-                    <Heart size={14} className={isWish ? "fill-red-500 text-red-500" : ""} />
+                    <Heart size={13} className={isWish ? "fill-red-500 text-red-500" : ""} />
                   </button>
 
                   {/* Best Seller Badges */}
-                  <div className="absolute top-4 left-4 z-10 flex flex-col gap-1.5">
+                  <div className="absolute top-2.5 left-2.5 sm:top-4 sm:left-4 z-10 flex flex-col gap-1">
                     {p.isBestSeller && (
-                      <span className="bg-gold-default text-white text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full shadow-sm">
+                      <span className="bg-gold-default text-white text-[8px] sm:text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full shadow-sm">
                         Mais Vendido
                       </span>
                     )}
@@ -311,7 +331,7 @@ export default function ProductsSection({
                     <div className="absolute inset-0 bg-charcoal/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
                       <button
                         onClick={() => onProductClick(p)}
-                        className="p-3 bg-white text-charcoal hover:bg-gold-default hover:text-white rounded-full transition-colors shadow-lg focus:outline-none"
+                        className="p-2.5 sm:p-3 bg-white text-charcoal hover:bg-gold-default hover:text-white rounded-full transition-colors shadow-lg focus:outline-none cursor-pointer"
                         title="Ver Detalhes do Mimo"
                       >
                         <Eye size={16} />
@@ -320,12 +340,12 @@ export default function ProductsSection({
                   </div>
 
                   {/* Content details and Buy footer triggers */}
-                  <div className="p-5 flex-1 flex flex-col justify-between">
-                    <div className="space-y-2 text-left">
-                      <div className="flex items-center gap-1.5 text-[9.5px] text-charcoal/75 font-bold uppercase tracking-widest">
-                        <span>{p.category.replace("-", " ")}</span>
+                  <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between">
+                    <div className="space-y-1 sm:space-y-2 text-left">
+                      <div className="flex items-center gap-1 text-[8.5px] sm:text-[9.5px] text-charcoal/75 font-bold uppercase tracking-wider">
+                        <span className="truncate">{p.category.replace("-", " ")}</span>
                         {p.customizable && (
-                          <span className="inline-flex items-center gap-0.5 text-gold-dark font-extrabold bg-gold-light/40 px-1.5 py-0.5 rounded">
+                          <span className="inline-flex items-center gap-0.5 text-gold-dark font-extrabold bg-gold-light/40 px-1 py-0.5 rounded shrink-0">
                             <Sparkles size={8} /> Personalizável
                           </span>
                         )}
@@ -333,21 +353,21 @@ export default function ProductsSection({
                       
                       <h4
                         onClick={() => onProductClick(p)}
-                        className="font-serif text-sm sm:text-md font-bold text-charcoal hover:text-gold-default cursor-pointer transition-colors leading-snug line-clamp-2"
+                        className="font-serif text-xs sm:text-sm md:text-base font-bold text-charcoal hover:text-gold-default cursor-pointer transition-colors leading-snug line-clamp-2"
                       >
                         {p.name}
                       </h4>
 
                       <div className="flex items-center gap-1 text-gold-default">
                         <Star size={11} className="fill-current" />
-                        <span className="text-[11px] font-semibold text-charcoal/75">{p.rating.toFixed(1)}</span>
+                        <span className="text-[10px] sm:text-[11px] font-semibold text-charcoal/75">{p.rating.toFixed(1)}</span>
                       </div>
                     </div>
 
-                    <div className="pt-4 border-t border-pink-default/10 mt-4 flex items-center justify-between">
+                    <div className="pt-2.5 sm:pt-4 border-t border-pink-default/10 mt-2.5 sm:mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                       {/* Pricing */}
                       <div className="text-left">
-                        <span className="block font-serif text-md sm:text-lg font-bold text-gold-dark leading-none">
+                        <span className="block font-serif text-sm sm:text-base md:text-lg font-bold text-gold-dark leading-none">
                           R$ {p.price.toFixed(2)}
                         </span>
                       </div>
@@ -356,13 +376,12 @@ export default function ProductsSection({
                       <button
                         onClick={() => {
                           if (p.customizable) {
-                            // Open modal for personalization specs
                             onProductClick(p);
                           } else {
                             onAddToCart(p);
                           }
                         }}
-                        className="px-4 py-2 bg-charcoal hover:bg-gold-default text-white text-[10.5px] uppercase tracking-widest font-bold rounded-xl transition-colors flex items-center gap-1.5 focus:outline-none cursor-pointer"
+                        className="w-full sm:w-auto px-2.5 sm:px-4 py-1.5 sm:py-2 bg-charcoal hover:bg-gold-default text-white text-[9.5px] sm:text-[10.5px] uppercase tracking-wider sm:tracking-widest font-bold rounded-lg sm:rounded-xl transition-colors flex items-center justify-center gap-1.5 focus:outline-none cursor-pointer"
                       >
                         <ShoppingBag size={12} />
                         <span>Comprar</span>
